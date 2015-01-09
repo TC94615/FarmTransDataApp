@@ -1,0 +1,86 @@
+PODS:
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection (= 2.5.0)
+    - AFNetworking/NSURLSession (= 2.5.0)
+    - AFNetworking/Reachability (= 2.5.0)
+    - AFNetworking/Security (= 2.5.0)
+    - AFNetworking/Serialization (= 2.5.0)
+    - AFNetworking/UIKit (= 2.5.0)
+  - AFNetworking/NSURLConnection (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.0)
+  - AFNetworking/Security (2.5.0)
+  - AFNetworking/Serialization (2.5.0)
+  - AFNetworking/UIKit (2.5.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Amplitude-iOS (2.2.3)
+  - Bolts (1.1.3)
+  - CocoaLumberjack (1.9.2):
+    - CocoaLumberjack/Extensions (= 1.9.2)
+  - CocoaLumberjack/Core (1.9.2)
+  - CocoaLumberjack/Extensions (1.9.2):
+    - CocoaLumberjack/Core
+  - CrittercismSDK (5.0.7)
+  - CRToast (0.0.7)
+  - DejalActivityView (1.2)
+  - Facebook-iOS-SDK (3.21.1):
+    - Bolts (~> 1.0)
+  - FMDB (2.4):
+    - FMDB/standard (= 2.4)
+  - FMDB/common (2.4)
+  - FMDB/standard (2.4):
+    - FMDB/common
+  - JBWhatsAppActivity (1.0)
+  - Mantle (1.5.1):
+    - Mantle/extobjc (= 1.5.1)
+  - Mantle/extobjc (1.5.1)
+  - Mixpanel (2.6.2):
+    - Mixpanel/MPCategoryHelpers (= 2.6.2)
+  - Mixpanel/MPCategoryHelpers (2.6.2)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - uservoice-iphone-sdk (3.2.1)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5.0)
+  - Amplitude-iOS (~> 2.2.2)
+  - Bolts (~> 1.1.3)
+  - CocoaLumberjack (~> 1.9.2)
+  - CrittercismSDK (~> 5.0.7)
+  - CRToast (~> 0.0.7)
+  - DejalActivityView (~> 1.2)
+  - Facebook-iOS-SDK (~> 3.21.1)
+  - FMDB (~> 2.4)
+  - JBWhatsAppActivity (~> 1.0)
+  - Mantle (~> 1.5.1)
+  - Mixpanel (~> 2.6.2)
+  - NJKWebViewProgress (~> 0.2.3)
+  - uservoice-iphone-sdk (~> 3.2.1)
+
+SPEC CHECKSUMS:
+  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  Amplitude-iOS: 546e77e3f2a9efd49fd8f7c754985af5a97f4fc7
+  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
+  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  CrittercismSDK: 1f1a91c7a51ca8044e675765bde5d2aa97295b1d
+  CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b
+  DejalActivityView: ef0970deefe891fefd57af27765ddb21a8265755
+  Facebook-iOS-SDK: 18c26e86ab25c17854a2ee2a8f60562099c6600f
+  FMDB: 0b2fa25e5264ef177973c0cb8c02c711107979aa
+  JBWhatsAppActivity: d0eeb5b235d297be90935105e5cac2e41240a1ef
+  Mantle: d7c5ac734579ec751c58fecbf56189853056c58c
+  Mixpanel: c075cedebda3328ce1ee29a18429e265ce967cd8
+  NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
+  uservoice-iphone-sdk: 7cbc1e76dcbbc3d5ae3b4bf009fdcf355e1e83ec
+
+COCOAPODS: 0.35.0
