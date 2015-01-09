@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		4291272D9F482600F0896FD3 /* BottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429125E54FB7A9E75FF5DF04 /* BottomCell.m */; };
 		42912812AF4EB9922C61E2F4 /* FarmTransTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126D63540D579BBA23FAB /* FarmTransTableViewCell.m */; };
+		429128B7B2F6E2F673F13EB0 /* MainTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912526A468D1EB1BB06BDF /* MainTitleView.m */; };
 		42912C83B79A3EB785D9F5B2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912EA6B64EA01BCC369BD6 /* MainViewController.m */; };
 		42912F03AA8FB34A33EB0D31 /* FarmTransData.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912242218117E884FB8A17 /* FarmTransData.m */; };
 		42912FC431EADDDB5620649E /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912F51B2D92E9A24E4E40E /* HttpClient.m */; };
 		F4FF6077486826098D572C1F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02CFAB4DBFF6F8E4DAA763C4 /* libPods.a */; };
+		F80747001A5FB8FB00C5D288 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F80746FF1A5FB8FB00C5D288 /* Storyboard.storyboard */; };
+		F80747011A5FB9B200C5D288 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F80747031A5FB9B200C5D288 /* Localizable.strings */; };
 		F889803D1A526CF900CCA596 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F889803C1A526CF900CCA596 /* main.m */; };
 		F88980401A526CF900CCA596 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F889803F1A526CF900CCA596 /* AppDelegate.m */; };
 		F88980431A526CF900CCA596 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F88980421A526CF900CCA596 /* ViewController.m */; };
@@ -36,14 +39,18 @@
 		42912242218117E884FB8A17 /* FarmTransData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransData.m; sourceTree = "<group>"; };
 		4291226047D52A998A3A9D3A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		42912312CF680250EAF2B8C1 /* FarmTransData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransData.h; sourceTree = "<group>"; };
+		42912526A468D1EB1BB06BDF /* MainTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTitleView.m; sourceTree = "<group>"; };
 		429125E54FB7A9E75FF5DF04 /* BottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCell.m; sourceTree = "<group>"; };
 		429126D63540D579BBA23FAB /* FarmTransTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransTableViewCell.m; sourceTree = "<group>"; };
+		4291292D7C67F6AC7F62E9ED /* MainTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTitleView.h; sourceTree = "<group>"; };
 		42912AA5B3F3BA806D2FFCB5 /* BottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCell.h; sourceTree = "<group>"; };
 		42912D6EBC2D2F558CFC44D7 /* FarmTransTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransTableViewCell.h; sourceTree = "<group>"; };
 		42912EA6B64EA01BCC369BD6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		42912F51B2D92E9A24E4E40E /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		4C5BF760682C9A60461F9396 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CD38B5129CADC12F94D9A8C6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F80746FF1A5FB8FB00C5D288 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		F80747051A5FB9EE00C5D288 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F88980371A526CF900CCA596 /* FarmTransDataApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FarmTransDataApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F889803B1A526CF900CCA596 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F889803C1A526CF900CCA596 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -135,6 +142,7 @@
 				F88980411A526CF900CCA596 /* ViewController.h */,
 				F88980421A526CF900CCA596 /* ViewController.m */,
 				F88980471A526CF900CCA596 /* Images.xcassets */,
+				F80746FF1A5FB8FB00C5D288 /* Storyboard.storyboard */,
 				F889803A1A526CF900CCA596 /* Supporting Files */,
 				42912EA6B64EA01BCC369BD6 /* MainViewController.m */,
 				4291226047D52A998A3A9D3A /* MainViewController.h */,
@@ -148,6 +156,8 @@
 				429125E54FB7A9E75FF5DF04 /* BottomCell.m */,
 				42912F3A4284907724069090 /* Model */,
 				42912385CB2D626C8CF2A423 /* View */,
+				42912526A468D1EB1BB06BDF /* MainTitleView.m */,
+				4291292D7C67F6AC7F62E9ED /* MainTitleView.h */,
 			);
 			path = FarmTransDataApp;
 			sourceTree = "<group>";
@@ -155,6 +165,7 @@
 		F889803A1A526CF900CCA596 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F80747031A5FB9B200C5D288 /* Localizable.strings */,
 				F889803B1A526CF900CCA596 /* Info.plist */,
 				F889803C1A526CF900CCA596 /* main.m */,
 			);
@@ -241,8 +252,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
-				Base,
+				"zh-Hant",
 			);
 			mainGroup = F889802E1A526CF900CCA596;
 			productRefGroup = F88980381A526CF900CCA596 /* Products */;
@@ -261,6 +271,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F88980481A526CF900CCA596 /* Images.xcassets in Resources */,
+				F80747011A5FB9B200C5D288 /* Localizable.strings in Resources */,
+				F80747001A5FB8FB00C5D288 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +331,7 @@
 				42912F03AA8FB34A33EB0D31 /* FarmTransData.m in Sources */,
 				42912812AF4EB9922C61E2F4 /* FarmTransTableViewCell.m in Sources */,
 				4291272D9F482600F0896FD3 /* BottomCell.m in Sources */,
+				429128B7B2F6E2F673F13EB0 /* MainTitleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +352,18 @@
 			targetProxy = F88980511A526CF900CCA596 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F80747031A5FB9B200C5D288 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F80747051A5FB9EE00C5D288 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F88980581A526CF900CCA596 /* Debug */ = {
@@ -487,7 +512,7 @@
 				F88980591A526CF900CCA596 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		F889805A1A526CF900CCA596 /* Build configuration list for PBXNativeTarget "FarmTransDataApp" */ = {
 			isa = XCConfigurationList;
@@ -496,7 +521,7 @@
 				F889805C1A526CF900CCA596 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		F889805D1A526CF900CCA596 /* Build configuration list for PBXNativeTarget "FarmTransDataAppTests" */ = {
 			isa = XCConfigurationList;
@@ -505,7 +530,7 @@
 				F889805F1A526CF900CCA596 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

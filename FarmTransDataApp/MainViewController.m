@@ -8,6 +8,7 @@
 #import "HttpClient.h"
 #import "FarmTransTableViewCell.h"
 #import "BottomCell.h"
+#import "MainTitleView.h"
 
 
 //market list
@@ -24,16 +25,9 @@ NSString *market = @"台北一";
 NSString *startDate = @"103.01.01";
 
 @interface MainViewController()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UIView *columnNameView;
+@property (nonatomic, strong) MainTitleView * mainTitleView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
-
-@property (nonatomic, strong) UILabel *columnAgriculturalNameLabel;
-@property (nonatomic, strong) UILabel *columnTopPriceLabel;
-@property (nonatomic, strong) UILabel *columnMidPriceLabel;
-@property (nonatomic, strong) UILabel *columnBotPriceLabel;
-@property (nonatomic, strong) UILabel *columnAvgPriceLabel;
-@property (nonatomic, strong) UILabel *columnVolumeLabel;
 
 @property (nonatomic, strong) HttpClient *client;
 @property (nonatomic, assign) BOOL requestingFlag;
@@ -45,104 +39,10 @@ NSString *startDate = @"103.01.01";
     UIView *view = [[UIView alloc] init];
     self.view = view;
 
-    _columnNameView = [[UIView alloc] init];
-    [self.view addSubview:self.columnNameView];
-    self.columnNameView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnNameView.backgroundColor = [UIColor redColor];
-
-    _columnAgriculturalNameLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnAgriculturalNameLabel];
-    self.columnAgriculturalNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnAgriculturalNameLabel.text = @"作物";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnAgriculturalNameLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-    _columnTopPriceLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnTopPriceLabel];
-    self.columnTopPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnTopPriceLabel.text = @"上價";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnTopPriceLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-
-    _columnMidPriceLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnMidPriceLabel];
-    self.columnMidPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnMidPriceLabel.text = @"中價";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnMidPriceLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-
-    _columnBotPriceLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnBotPriceLabel];
-    self.columnBotPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnBotPriceLabel.text = @"下價";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnBotPriceLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-
-    _columnAvgPriceLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnAvgPriceLabel];
-    self.columnAvgPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnAvgPriceLabel.text = @"均價";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnAvgPriceLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-
-    _columnVolumeLabel = [[UILabel alloc] init];
-    [self.columnNameView addSubview:self.columnVolumeLabel];
-    self.columnVolumeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.columnVolumeLabel.text = @"量";
-    [self.columnNameView addConstraint:[NSLayoutConstraint constraintWithItem:self.columnVolumeLabel
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.columnNameView
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1.0
-                                                                     constant:0.0]];
-
-
-    NSDictionary *viewsInColumnView = @{@"columnAgriculturalNameLabel" : self.columnAgriculturalNameLabel,
-      @"columnTopPriceLabel" : self.columnTopPriceLabel,
-      @"columnMidPriceLabel" : self.columnMidPriceLabel,
-      @"columnBotPriceLabel" : self.columnBotPriceLabel,
-      @"columnAvgPriceLabel" : self.columnAvgPriceLabel,
-      @"columnVolumeLabel" : self.columnVolumeLabel};
-    [self.columnNameView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[columnAgriculturalNameLabel]"
-                                           "[columnTopPriceLabel(==columnAgriculturalNameLabel)]"
-                                           "[columnMidPriceLabel(==columnAgriculturalNameLabel)]"
-                                           "[columnBotPriceLabel(==columnAgriculturalNameLabel)]"
-                                           "[columnAvgPriceLabel(==columnAgriculturalNameLabel)]"
-                                           "[columnVolumeLabel(==columnAgriculturalNameLabel)]|"
-                                                                                options:0
-                                                                                metrics:nil
-                                                                                  views:viewsInColumnView]];
-
+    _mainTitleView = [[MainTitleView alloc] init];
+    [self.view addSubview:self.mainTitleView];
+    self.mainTitleView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.mainTitleView.backgroundColor = [UIColor redColor];
 
     _tableView = [[UITableView alloc] init];
     self.tableView.dataSource = self;
@@ -150,8 +50,8 @@ NSString *startDate = @"103.01.01";
     [self.view addSubview:self.tableView];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSDictionary *views = @{@"columnNameView" : self.columnNameView, @"tableView" : self.tableView};
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[columnNameView]|"
+    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView};
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainTitleView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];
@@ -160,7 +60,7 @@ NSString *startDate = @"103.01.01";
                                                                       metrics:nil
                                                                         views:views]];
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[columnNameView(==50)][tableView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainTitleView(==50)][tableView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];

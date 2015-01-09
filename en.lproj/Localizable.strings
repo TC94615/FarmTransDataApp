@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  FarmTransDataApp
+
+  Created by 李道政 on 2015/1/9.
+  Copyright (c) 2015年 李道政. All rights reserved.
+*/
+
+"mainTitleView.agricultural_name" = "mainTitleView.agricultural_name";
+"mainTitleView.top_price" = "mainTitleView.top_price";
+"mainTitleView.mid_price" = "mainTitleView.mid_price";
+"mainTitleView.bot_price" = "mainTitleView.bot_price";
+"mainTitleView.avg_price" = "mainTitleView.avg_price";
+"mainTitleView.volume" = "mainTitleView.volume";
