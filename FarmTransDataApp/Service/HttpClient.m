@@ -11,12 +11,24 @@
 #import "AFURLRequestSerialization.h"
 #import "AFHTTPRequestOperation.h"
 #import "FarmTransData.h"
+#import "Dao.h"
 
 static NSString *const site = @"http://m.coa.gov.tw";
 static NSString *const path = @"/OpenData/FarmTransData.aspx";
 int const FETCH_PAGE_SIZE = 30;
 
+
+@interface HttpClient()
+@property (nonatomic, strong) Dao *dao;
+@end
+
 @implementation HttpClient
+
+- (instancetype) init {
+    self = [super init];
+    _dao = [Dao sharedDao];
+    return self;
+}
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) market startDateString:(NSString *) startDate completion:(void (^)(NSArray *)) completion {
     NSString *escapedMarketName = [market stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

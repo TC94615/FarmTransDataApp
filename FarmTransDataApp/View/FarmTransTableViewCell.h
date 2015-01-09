@@ -16,4 +16,6 @@ extern NSString *const cellReuseIdentifier;
 
 
 - (void) updateCell:(FarmTransData *) data;
+
++ (CGFloat) cellHeight;
 @end

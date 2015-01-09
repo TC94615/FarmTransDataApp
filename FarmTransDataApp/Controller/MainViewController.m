@@ -9,6 +9,7 @@
 #import "FarmTransTableViewCell.h"
 #import "BottomCell.h"
 #import "MainTitleView.h"
+#import "Dao.h"
 
 
 //market list
@@ -22,7 +23,7 @@ enum {
 };
 
 NSString *market = @"台北一";
-NSString *startDate = @"103.01.01";
+
 
 @interface MainViewController()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) MainTitleView * mainTitleView;
@@ -31,6 +32,8 @@ NSString *startDate = @"103.01.01";
 
 @property (nonatomic, strong) HttpClient *client;
 @property (nonatomic, assign) BOOL requestingFlag;
+@property (nonatomic, strong) NSString *thisDateInRepublicEra;
+@property (nonatomic, strong) Dao *dao;
 @end
 
 @implementation MainViewController
@@ -68,9 +71,17 @@ NSString *startDate = @"103.01.01";
 
     _client = [[HttpClient alloc] init];
     _requestingFlag = NO;
+    _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
+    _dao = [Dao sharedDao];
+    [self.dao createTable];
 
 
 }
+
+- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
+    return [FarmTransTableViewCell cellHeight];
+}
+
 
 - (void) reloadTableView:(NSArray *) array {
     [self.dataSourceArray addObjectsFromArray:array];
@@ -84,7 +95,7 @@ NSString *startDate = @"103.01.01";
 
 
     [self.client fetchDataWithPage:0 market:market
-                   startDateString:startDate completion:^(NSArray *data) {
+                   startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
          [self reloadTableView:data];
      }];
 
@@ -110,7 +121,6 @@ NSString *startDate = @"103.01.01";
         FarmTransTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier
                                                                        forIndexPath:indexPath];
         FarmTransData *farmTransData = self.dataSourceArray[indexPath.row];
-        NSLog(@">>>>>>>>>>>> indexPath = %i,farmTransData.agriculturalName = %@", indexPath.row, farmTransData.agriculturalName);
         [cell updateCell:farmTransData];
         return cell;
     }
@@ -139,9 +149,8 @@ NSString *startDate = @"103.01.01";
         [bottomCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-        NSLog(@">>>>>>>>>>>> page = %i", page + 1);
         [self.client fetchDataWithPage:page market:market
-                       startDateString:startDate completion:^(NSArray *completion) {
+                       startDateString:self.thisDateInRepublicEra completion:^(NSArray *completion) {
              self.requestingFlag = NO;
              [self reloadTableView:completion];
          }];

@@ -49,8 +49,10 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 //                                                                      constant:0]];
 
         _agriculturalNameLabel = [[UILabel alloc] init];
-        self.agriculturalNameLabel.backgroundColor = [UIColor redColor];
+        self.agriculturalNameLabel.textAlignment = NSTextAlignmentCenter;
         self.agriculturalNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.agriculturalNameLabel.numberOfLines = 2;
+//        self.agriculturalNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.contentView addSubview:self.agriculturalNameLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.agriculturalNameLabel
                                                                      attribute:NSLayoutAttributeCenterY
@@ -83,6 +85,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 //                                                                      constant:0]];
 
         _topPriceLabel = [[UILabel alloc] init];
+        self.topPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.topPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.topPriceLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.topPriceLabel
@@ -94,6 +97,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
                                                                       constant:0]];
 
         _midPriceLabel = [[UILabel alloc] init];
+        self.midPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.midPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.midPriceLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.midPriceLabel
@@ -105,6 +109,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
                                                                       constant:0]];
 
         _botPriceLabel = [[UILabel alloc] init];
+        self.botPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.botPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.botPriceLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.botPriceLabel
@@ -116,6 +121,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
                                                                       constant:0]];
 
         _avgPriceLabel = [[UILabel alloc] init];
+        self.avgPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.avgPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.avgPriceLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.avgPriceLabel
@@ -127,6 +133,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
                                                                       constant:0]];
 
         _volumeLabel = [[UILabel alloc] init];
+        self.volumeLabel.textAlignment = NSTextAlignmentCenter;
         self.volumeLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.volumeLabel];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.volumeLabel
@@ -181,5 +188,9 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
     self.botPriceLabel.text = data.botPrice;
     self.avgPriceLabel.text = data.avgPrice;
     self.volumeLabel.text = data.volume;
+}
+
++ (CGFloat) cellHeight {
+    return 50;
 }
 @end

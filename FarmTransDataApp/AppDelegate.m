@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "DDTTYLogger.h"
 #import "DDASLLogger.h"
+#import "AppConstants.h"
 
 @interface AppDelegate ()
 
@@ -22,7 +23,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self initDDLogger];
-//    DDLogInfo(@"Did Finish Lauching With Options");
+    DDLogInfo(@"Did Finish Lauching With Options");
     MainViewController *mainViewController = [[MainViewController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = mainViewController;
