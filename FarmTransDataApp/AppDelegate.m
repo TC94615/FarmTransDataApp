@@ -25,8 +25,9 @@
     [self initDDLogger];
     DDLogInfo(@"Did Finish Lauching With Options");
     MainViewController *mainViewController = [[MainViewController alloc] init];
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = mainViewController;
+    self.window.rootViewController = navigation;
     [self.window makeKeyAndVisible];
     return YES;
 }

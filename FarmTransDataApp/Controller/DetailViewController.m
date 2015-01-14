@@ -13,7 +13,7 @@
 
 enum {
     ContentsSection = 0,
-    BottomSection,
+    LoadMoreSection,
     TotalSections
 };
 
@@ -55,7 +55,7 @@ enum {
         [cell updateCell:self.dataSourceArray[indexPath.row]];
         return cell;
     }
-    else if (BottomSection == indexPath.section) {
+    else if (LoadMoreSection == indexPath.section) {
         BottomCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
                                                            forIndexPath:indexPath];
         return cell;
@@ -64,7 +64,6 @@ enum {
 }
 
 - (void) loadView {
-    NSLog(@">>>>>>>>>>>>> load dvc");
     UIView *view = [[UIView alloc] init];
     self.view = view;
 

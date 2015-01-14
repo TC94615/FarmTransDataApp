@@ -19,7 +19,7 @@
 
 enum {
     ContentsSection = 0,
-    BottomSection,
+    LoadMoreSection,
     TotalSections
 };
 
@@ -40,6 +40,8 @@ NSString *market = @"台北一";
 @implementation MainViewController
 
 - (void) loadView {
+    self.navigationController.view.backgroundColor= [UIColor redColor];
+    self.navigationController.title = @"TITLE";
     UIView *view = [[UIView alloc] init];
     self.view = view;
 
@@ -106,7 +108,7 @@ NSString *market = @"台北一";
     if (ContentsSection == section) {
         return [self.dataSourceArray count];
     }
-    else if (BottomSection == section) {
+    else if (LoadMoreSection == section) {
         return 1;
     }
     return 0;
@@ -114,15 +116,12 @@ NSString *market = @"台北一";
 
 - (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
     if (ContentsSection == indexPath.section) {
-        NSLog(@">>>>>>>>>>>> indexPath = %@", indexPath);
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithAriculturalId:[self.dataSourceArray[indexPath.row] agriculturalName]
                                                                                              andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
         [self.navigationController pushViewController:detailViewController
                                              animated:YES];
-
     }
-
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
@@ -138,7 +137,7 @@ NSString *market = @"台北一";
         [cell updateCell:farmTransData];
         return cell;
     }
-    else if (BottomSection == indexPath.section) {
+    else if (LoadMoreSection == indexPath.section) {
         BottomCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
                                                            forIndexPath:indexPath];
         return cell;
@@ -159,7 +158,7 @@ NSString *market = @"台北一";
             return;
         }
         BottomCell *bottomCell = (BottomCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
-                                                                                                         inSection:BottomSection]];
+                                                                                                         inSection:LoadMoreSection]];
         [bottomCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);

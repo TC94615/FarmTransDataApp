@@ -193,4 +193,5 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 + (CGFloat) cellHeight {
     return 50;
 }
+
 @end
