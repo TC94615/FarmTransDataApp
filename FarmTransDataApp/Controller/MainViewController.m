@@ -10,6 +10,7 @@
 #import "BottomCell.h"
 #import "MainTitleView.h"
 #import "Dao.h"
+#import "DetailViewController.h"
 
 
 //market list
@@ -26,7 +27,7 @@ NSString *market = @"台北一";
 
 
 @interface MainViewController()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) MainTitleView * mainTitleView;
+@property (nonatomic, strong) MainTitleView *mainTitleView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
 
@@ -109,6 +110,19 @@ NSString *market = @"台北一";
         return 1;
     }
     return 0;
+}
+
+- (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
+    if (ContentsSection == indexPath.section) {
+        NSLog(@">>>>>>>>>>>> indexPath = %@", indexPath);
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithAriculturalId:[self.dataSourceArray[indexPath.row] agriculturalName]
+                                                                                             andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
+        [self.navigationController pushViewController:detailViewController
+                                             animated:YES];
+
+    }
+
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {

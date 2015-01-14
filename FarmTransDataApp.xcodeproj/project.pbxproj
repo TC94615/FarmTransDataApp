@@ -16,6 +16,7 @@
 		4291295A42D41C35E40CDEB5 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 429122AB6372B1B8A386ECF3 /* AppConstants.m */; };
 		42912992AC45EF764C40B22D /* MainTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912D847D5E9CA8EF257D59 /* MainTitleView.m */; };
 		42912E880B2319B62DBA5686 /* RowObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912C3EF3AE8F93898A3970 /* RowObject.m */; };
+		42912FAE7BE84E5C954E9F5F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912C4A4415FA8A3180C609 /* DetailViewController.m */; };
 		F4FF6077486826098D572C1F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02CFAB4DBFF6F8E4DAA763C4 /* libPods.a */; };
 		F80747011A5FB9B200C5D288 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F80747031A5FB9B200C5D288 /* Localizable.strings */; };
 		F889803D1A526CF900CCA596 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F889803C1A526CF900CCA596 /* main.m */; };
@@ -43,6 +44,7 @@
 		429121EC08D02C6987E89EA6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		429122AB6372B1B8A386ECF3 /* AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConstants.m; sourceTree = "<group>"; };
 		42912307358FE73B1CB36046 /* FarmTransTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransTableViewCell.h; sourceTree = "<group>"; };
+		42912342DF775085512883C7 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		4291254D7CF262F487D86252 /* FarmTransData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransData.h; sourceTree = "<group>"; };
 		429126F0EE7C6844834E3EE7 /* BottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCell.m; sourceTree = "<group>"; };
 		429126FA85B6904583EEF996 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 		4291294946A7BCC0E0A86171 /* BottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCell.h; sourceTree = "<group>"; };
 		42912A3F2171B342399F8FB1 /* Dao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dao.m; sourceTree = "<group>"; };
 		42912C3EF3AE8F93898A3970 /* RowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowObject.m; sourceTree = "<group>"; };
+		42912C4A4415FA8A3180C609 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		42912D847D5E9CA8EF257D59 /* MainTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTitleView.m; sourceTree = "<group>"; };
 		42912DEC1A462473EA673E50 /* RowObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowObject.h; sourceTree = "<group>"; };
 		42912E56D8D1A4C250DDA128 /* Dao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dao.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 			children = (
 				429121EC08D02C6987E89EA6 /* MainViewController.m */,
 				429120153FEEE61BFEDCCECB /* MainViewController.h */,
+				42912C4A4415FA8A3180C609 /* DetailViewController.m */,
+				42912342DF775085512883C7 /* DetailViewController.h */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				429127AE092FF7355B0F1403 /* Dao.m in Sources */,
 				42912E880B2319B62DBA5686 /* RowObject.m in Sources */,
 				4291295A42D41C35E40CDEB5 /* AppConstants.m in Sources */,
+				42912FAE7BE84E5C954E9F5F /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
