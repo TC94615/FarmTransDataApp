@@ -12,6 +12,7 @@
 		429127AE092FF7355B0F1403 /* Dao.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912A3F2171B342399F8FB1 /* Dao.m */; };
 		429128655D35B77022C0D7C2 /* FarmTransData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4291270BC0E561ABEC9C6F73 /* FarmTransData.m */; };
 		429128F09C040394F304E9E4 /* FarmTransTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429121C79E0316518C8B2A8A /* FarmTransTableViewCell.m */; };
+		4291290D9D82B93A0CEDE18E /* CorePlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912FF8F86DB9FCB5702D96 /* CorePlotViewController.m */; };
 		4291291AA8824B131A5D57CC /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126FA85B6904583EEF996 /* HttpClient.m */; };
 		4291295A42D41C35E40CDEB5 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 429122AB6372B1B8A386ECF3 /* AppConstants.m */; };
 		42912992AC45EF764C40B22D /* MainTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912D847D5E9CA8EF257D59 /* MainTitleView.m */; };
@@ -51,12 +52,14 @@
 		4291270BC0E561ABEC9C6F73 /* FarmTransData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransData.m; sourceTree = "<group>"; };
 		4291294946A7BCC0E0A86171 /* LoadMoreIndicatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreIndicatorCell.h; sourceTree = "<group>"; };
 		42912A3F2171B342399F8FB1 /* Dao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dao.m; sourceTree = "<group>"; };
+		42912AE6D75933E389B3B35B /* CorePlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorePlotViewController.h; sourceTree = "<group>"; };
 		42912C3EF3AE8F93898A3970 /* RowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowObject.m; sourceTree = "<group>"; };
 		42912C4A4415FA8A3180C609 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		42912D847D5E9CA8EF257D59 /* MainTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTitleView.m; sourceTree = "<group>"; };
 		42912DEC1A462473EA673E50 /* RowObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowObject.h; sourceTree = "<group>"; };
 		42912E56D8D1A4C250DDA128 /* Dao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dao.h; sourceTree = "<group>"; };
 		42912E7A828942DE6B01094D /* MainTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTitleView.h; sourceTree = "<group>"; };
+		42912FF8F86DB9FCB5702D96 /* CorePlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorePlotViewController.m; sourceTree = "<group>"; };
 		4C5BF760682C9A60461F9396 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CD38B5129CADC12F94D9A8C6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F80747051A5FB9EE00C5D288 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				429120153FEEE61BFEDCCECB /* MainViewController.h */,
 				42912C4A4415FA8A3180C609 /* DetailViewController.m */,
 				42912342DF775085512883C7 /* DetailViewController.h */,
+				42912FF8F86DB9FCB5702D96 /* CorePlotViewController.m */,
+				42912AE6D75933E389B3B35B /* CorePlotViewController.h */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				42912E880B2319B62DBA5686 /* RowObject.m in Sources */,
 				4291295A42D41C35E40CDEB5 /* AppConstants.m in Sources */,
 				42912FAE7BE84E5C954E9F5F /* DetailViewController.m in Sources */,
+				4291290D9D82B93A0CEDE18E /* CorePlotViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

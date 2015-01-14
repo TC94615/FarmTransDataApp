@@ -11,6 +11,7 @@
 #import "FarmTransTableViewCell.h"
 #import "LoadMoreIndicatorCell.h"
 #import "AppConstants.h"
+#import "CorePlotViewController.h"
 
 enum {
     ContentsSection = 0,
@@ -107,6 +108,15 @@ enum {
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
     _page = 0;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"plot"
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(clickRightBarButton:)];
+}
+
+- (void) clickRightBarButton:(UIBarButtonItem *) sender {
+    CorePlotViewController *plotViewController = [[CorePlotViewController alloc] initWithDataArray:self.dataSourceArray];
+    [self.navigationController pushViewController:plotViewController animated:NO];
 }
 
 - (void) viewDidLoad {
