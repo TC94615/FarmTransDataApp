@@ -9,7 +9,7 @@
 #import "HttpClient.h"
 #import "Dao.h"
 #import "FarmTransTableViewCell.h"
-#import "BottomCell.h"
+#import "LoadMoreIndicatorCell.h"
 #import "AppConstants.h"
 
 enum {
@@ -59,11 +59,11 @@ enum {
     if (ContentsSection == indexPath.section) {
         FarmTransTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier
                                                                        forIndexPath:indexPath];
-        [cell updateCell:self.dataSourceArray[indexPath.row]];
+        [cell updateCellInDetail:self.dataSourceArray[indexPath.row]];
         return cell;
     }
     else if (LoadMoreSection == indexPath.section) {
-        BottomCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
+        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
                                                            forIndexPath:indexPath];
         return cell;
     }
@@ -85,7 +85,7 @@ enum {
     [self.view addSubview:self.tableView];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView};
+    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,@"topLayoutGuide":self.topLayoutGuide};
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainTitleView]|"
                                                                       options:0
                                                                       metrics:nil
@@ -95,7 +95,7 @@ enum {
                                                                       metrics:nil
                                                                         views:views]];
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainTitleView(==100)][tableView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topLayoutGuide][mainTitleView(==40)][tableView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];
@@ -109,7 +109,7 @@ enum {
 - (void) viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
-    [self.tableView registerClass:[BottomCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
+    [self.tableView registerClass:[LoadMoreIndicatorCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
 
     [self.client fetchDataWithPage:0 withAgriculturalName:self.agriculturalName
                     withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
@@ -135,15 +135,16 @@ enum {
         if (self.requestingFlag) {
             return;
         }
-        BottomCell *bottomCell = (BottomCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
+        LoadMoreIndicatorCell *loadMoreIndicatorCell = (LoadMoreIndicatorCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
                                                                                                          inSection:LoadMoreSection]];
-        [bottomCell addActivityIndicator];
+        [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-
+        NSLog(@">>>>>>>>>>>> page = %i", page);
         [self.client fetchDataWithPage:page withAgriculturalName:self.agriculturalName
                         withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                      withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
+             self.requestingFlag = NO;
              [self reloadTableView:data];
          }];
     }

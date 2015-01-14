@@ -15,7 +15,9 @@ extern NSString *const cellReuseIdentifier;
 - (instancetype) initWithStyle:(UITableViewCellStyle) style reuseIdentifier:(NSString *) reuseIdentifier;
 
 
-- (void) updateCell:(FarmTransData *) data;
+- (void) updateCellInMain:(FarmTransData *) data;
+
+- (void) updateCellInDetail:(FarmTransData *) data;
 
 + (CGFloat) cellHeight;
 

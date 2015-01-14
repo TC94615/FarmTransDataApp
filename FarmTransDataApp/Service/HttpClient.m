@@ -44,6 +44,7 @@ int const FETCH_PAGE_SIZE = 30;
     int skip = FETCH_PAGE_SIZE * page;
     NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"Crop" : escapedCropName,
       @"Market" : escapedMarketName, @"EndDate" : endDate, @"StartDate" : startDate};
+    NSLog(@">>>>>>>>>>>> [self makeURLStringWithParamsDictionary:params] = %@", [self makeURLStringWithParamsDictionary:params]);
     [self fetchDataWithURLString:[self makeURLStringWithParamsDictionary:params] completion:^(NSArray *array) {
         completion(array);
     }];

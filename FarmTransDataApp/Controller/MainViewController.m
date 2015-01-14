@@ -7,7 +7,7 @@
 #import "FarmTransData.h"
 #import "HttpClient.h"
 #import "FarmTransTableViewCell.h"
-#import "BottomCell.h"
+#import "LoadMoreIndicatorCell.h"
 #import "MainTitleView.h"
 #import "Dao.h"
 #import "DetailViewController.h"
@@ -57,7 +57,7 @@ NSString *market = @"台北一";
     [self.view addSubview:self.tableView];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView};
+    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,@"topLayoutGuide":self.topLayoutGuide};
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainTitleView]|"
                                                                       options:0
                                                                       metrics:nil
@@ -67,12 +67,11 @@ NSString *market = @"台北一";
                                                                       metrics:nil
                                                                         views:views]];
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainTitleView(==100)][tableView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topLayoutGuide][mainTitleView(==40)][tableView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];
     _dataSourceArray = [NSMutableArray array];
-
     _client = [[HttpClient alloc] init];
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
@@ -95,7 +94,7 @@ NSString *market = @"台北一";
 - (void) viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
-    [self.tableView registerClass:[BottomCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
+    [self.tableView registerClass:[LoadMoreIndicatorCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
 
 
     [self.client fetchDataWithPage:0 market:market
@@ -135,11 +134,11 @@ NSString *market = @"台北一";
         FarmTransTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier
                                                                        forIndexPath:indexPath];
         FarmTransData *farmTransData = self.dataSourceArray[indexPath.row];
-        [cell updateCell:farmTransData];
+        [cell updateCellInMain:farmTransData];
         return cell;
     }
     else if (LoadMoreSection == indexPath.section) {
-        BottomCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
+        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
                                                            forIndexPath:indexPath];
         return cell;
     }
@@ -158,9 +157,9 @@ NSString *market = @"台北一";
         if (self.requestingFlag) {
             return;
         }
-        BottomCell *bottomCell = (BottomCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
+        LoadMoreIndicatorCell *loadMoreIndicatorCell = (LoadMoreIndicatorCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
                                                                                                          inSection:LoadMoreSection]];
-        [bottomCell addActivityIndicator];
+        [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
         [self.client fetchDataWithPage:page market:market

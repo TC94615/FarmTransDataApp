@@ -8,7 +8,7 @@
 
 extern NSString *const bottomCellReuseIdentifier;
 
-@interface BottomCell : UITableViewCell
+@interface LoadMoreIndicatorCell : UITableViewCell
 //@property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
 
 - (void) addActivityIndicator;

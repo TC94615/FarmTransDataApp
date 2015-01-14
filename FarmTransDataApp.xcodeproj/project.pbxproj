@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		429126743E0A86216D6C3855 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 429121EC08D02C6987E89EA6 /* MainViewController.m */; };
-		429127496C031081FCD7AE99 /* BottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126F0EE7C6844834E3EE7 /* BottomCell.m */; };
+		429127496C031081FCD7AE99 /* LoadMoreIndicatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126F0EE7C6844834E3EE7 /* LoadMoreIndicatorCell.m */; };
 		429127AE092FF7355B0F1403 /* Dao.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912A3F2171B342399F8FB1 /* Dao.m */; };
 		429128655D35B77022C0D7C2 /* FarmTransData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4291270BC0E561ABEC9C6F73 /* FarmTransData.m */; };
 		429128F09C040394F304E9E4 /* FarmTransTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429121C79E0316518C8B2A8A /* FarmTransTableViewCell.m */; };
@@ -46,10 +46,10 @@
 		42912307358FE73B1CB36046 /* FarmTransTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransTableViewCell.h; sourceTree = "<group>"; };
 		42912342DF775085512883C7 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		4291254D7CF262F487D86252 /* FarmTransData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FarmTransData.h; sourceTree = "<group>"; };
-		429126F0EE7C6844834E3EE7 /* BottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCell.m; sourceTree = "<group>"; };
+		429126F0EE7C6844834E3EE7 /* LoadMoreIndicatorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreIndicatorCell.m; sourceTree = "<group>"; };
 		429126FA85B6904583EEF996 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		4291270BC0E561ABEC9C6F73 /* FarmTransData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransData.m; sourceTree = "<group>"; };
-		4291294946A7BCC0E0A86171 /* BottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCell.h; sourceTree = "<group>"; };
+		4291294946A7BCC0E0A86171 /* LoadMoreIndicatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreIndicatorCell.h; sourceTree = "<group>"; };
 		42912A3F2171B342399F8FB1 /* Dao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dao.m; sourceTree = "<group>"; };
 		42912C3EF3AE8F93898A3970 /* RowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowObject.m; sourceTree = "<group>"; };
 		42912C4A4415FA8A3180C609 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
@@ -93,8 +93,8 @@
 		42912385CB2D626C8CF2A423 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4291294946A7BCC0E0A86171 /* BottomCell.h */,
-				429126F0EE7C6844834E3EE7 /* BottomCell.m */,
+				4291294946A7BCC0E0A86171 /* LoadMoreIndicatorCell.h */,
+				429126F0EE7C6844834E3EE7 /* LoadMoreIndicatorCell.m */,
 				429121C79E0316518C8B2A8A /* FarmTransTableViewCell.m */,
 				42912307358FE73B1CB36046 /* FarmTransTableViewCell.h */,
 				42912E7A828942DE6B01094D /* MainTitleView.h */,
@@ -360,7 +360,7 @@
 			files = (
 				F88980401A526CF900CCA596 /* AppDelegate.m in Sources */,
 				F889803D1A526CF900CCA596 /* main.m in Sources */,
-				429127496C031081FCD7AE99 /* BottomCell.m in Sources */,
+				429127496C031081FCD7AE99 /* LoadMoreIndicatorCell.m in Sources */,
 				429128F09C040394F304E9E4 /* FarmTransTableViewCell.m in Sources */,
 				42912992AC45EF764C40B22D /* MainTitleView.m in Sources */,
 				429128655D35B77022C0D7C2 /* FarmTransData.m in Sources */,

@@ -9,11 +9,8 @@
 NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 
 @interface FarmTransTableViewCell()
-@property (nonatomic, strong) UILabel *transDateLabel;
-@property (nonatomic, strong) UILabel *agriculturalIdLabel;
-@property (nonatomic, strong) UILabel *agriculturalNameLabel;
-@property (nonatomic, strong) UILabel *marketIdLabel;
-@property (nonatomic, strong) UILabel *marketNameLabel;
+//@property (nonatomic, strong) UILabel *transDateLabel;
+@property (nonatomic, strong) UILabel *cropNameOrTransDateNameLabel;
 @property (nonatomic, strong) UILabel *topPriceLabel;
 @property (nonatomic, strong) UILabel *midPriceLabel;
 @property (nonatomic, strong) UILabel *botPriceLabel;
@@ -26,63 +23,19 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 - (instancetype) initWithStyle:(UITableViewCellStyle) style reuseIdentifier:(NSString *) reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-//        _transDateLabel = [[UILabel alloc] init];
-//        self.transDateLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        [self.contentView addSubview:self.transDateLabel];
-//        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.transDateLabel
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                     relatedBy:NSLayoutRelationEqual
-//                                                                        toItem:self.contentView
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                    multiplier:1.0
-//                                                                      constant:0]];
-//
-//        _agriculturalIdLabel = [[UILabel alloc] init];
-//        self.agriculturalIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        [self.contentView addSubview:self.agriculturalIdLabel];
-//        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.agriculturalIdLabel
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                     relatedBy:NSLayoutRelationEqual
-//                                                                        toItem:self.contentView
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                    multiplier:1.0
-//                                                                      constant:0]];
 
-        _agriculturalNameLabel = [[UILabel alloc] init];
-        self.agriculturalNameLabel.textAlignment = NSTextAlignmentCenter;
-        self.agriculturalNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.agriculturalNameLabel.numberOfLines = 2;
-//        self.agriculturalNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        [self.contentView addSubview:self.agriculturalNameLabel];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.agriculturalNameLabel
+        _cropNameOrTransDateNameLabel = [[UILabel alloc] init];
+        self.cropNameOrTransDateNameLabel.textAlignment = NSTextAlignmentCenter;
+        self.cropNameOrTransDateNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.cropNameOrTransDateNameLabel.numberOfLines = 2;
+        [self.contentView addSubview:self.cropNameOrTransDateNameLabel];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cropNameOrTransDateNameLabel
                                                                      attribute:NSLayoutAttributeCenterY
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeCenterY
                                                                     multiplier:1.0
                                                                       constant:0]];
-//
-//        _marketIdLabel = [[UILabel alloc] init];
-//        self.marketIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        [self.contentView addSubview:self.marketIdLabel];
-//        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.marketIdLabel
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                     relatedBy:NSLayoutRelationEqual
-//                                                                        toItem:self.contentView
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                    multiplier:1.0
-//                                                                      constant:0]];
-//
-//        _marketNameLabel = [[UILabel alloc] init];
-//        self.marketNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        [self.contentView addSubview:self.marketNameLabel];
-//        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.marketNameLabel
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                     relatedBy:NSLayoutRelationEqual
-//                                                                        toItem:self.contentView
-//                                                                     attribute:NSLayoutAttributeCenterY
-//                                                                    multiplier:1.0
-//                                                                      constant:0]];
 
         _topPriceLabel = [[UILabel alloc] init];
         self.topPriceLabel.textAlignment = NSTextAlignmentCenter;
@@ -144,18 +97,8 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
                                                                     multiplier:1.0
                                                                       constant:0]];
 
-//        NSDictionary *views = @{@"transDateLabel" : self.transDateLabel,
-//          @"agriculturalIdLabel" : self.agriculturalIdLabel,
-//          @"agriculturalNameLabel" : self.agriculturalNameLabel,
-//          @"marketIdLabel" : self.marketIdLabel,
-//          @"marketNameLabel" : self.marketNameLabel,
-//          @"topPriceLabel" : self.topPriceLabel,
-//          @"midPriceLabel" : self.midPriceLabel,
-//          @"botPriceLabel" : self.botPriceLabel,
-//          @"avgPriceLabel" : self.avgPriceLabel,
-//          @"volumeLabel" : self.volumeLabel};
         NSDictionary *views = @{
-          @"agriculturalNameLabel" : self.agriculturalNameLabel,
+          @"agriculturalNameLabel" : self.cropNameOrTransDateNameLabel,
           @"topPriceLabel" : self.topPriceLabel,
           @"midPriceLabel" : self.midPriceLabel,
           @"botPriceLabel" : self.botPriceLabel,
@@ -177,12 +120,17 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
     return self;
 }
 
-- (void) updateCell:(FarmTransData *) data {
-//    self.transDateLabel.text = data.transDate;
-//    self.agriculturalIdLabel.text = data.agriculturalId;
-    self.agriculturalNameLabel.text = data.agriculturalName;
-//    self.marketIdLabel.text = data.marketId;
-//    self.marketNameLabel.text = data.marketName;
+- (void) updateCellInMain:(FarmTransData *) data {
+    self.cropNameOrTransDateNameLabel.text = data.agriculturalName;
+    [self updateCellPrices:data];
+}
+
+- (void) updateCellInDetail:(FarmTransData *) data {
+    self.cropNameOrTransDateNameLabel.text = data.transDate;
+    [self updateCellPrices:data];
+}
+
+- (void) updateCellPrices:(FarmTransData *) data {
     self.topPriceLabel.text = data.topPrice;
     self.midPriceLabel.text = data.midPrice;
     self.botPriceLabel.text = data.botPrice;

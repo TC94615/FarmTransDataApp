@@ -3,12 +3,12 @@
 // Copyright (c) 2014 李道政. All rights reserved.
 //
 
-#import "BottomCell.h"
+#import "LoadMoreIndicatorCell.h"
 
-NSString *const bottomCellReuseIdentifier = @"BottomCell";
+NSString *const bottomCellReuseIdentifier = @"LoadMoreIndicatorCell";
 
 
-@implementation BottomCell
+@implementation LoadMoreIndicatorCell
 
 - (void) addActivityIndicator {
     NSLog(@"In addActivityIndicator...");
