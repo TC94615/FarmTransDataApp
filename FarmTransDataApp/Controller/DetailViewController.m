@@ -29,6 +29,7 @@ enum {
 @property (nonatomic, strong) NSString *agriculturalName;
 @property (nonatomic, strong) NSString *marketName;
 @property (nonatomic, strong) NSString *thisDateInRepublicEra;
+@property (nonatomic, assign) int page;
 @end
 
 @implementation DetailViewController
@@ -64,7 +65,7 @@ enum {
     }
     else if (LoadMoreSection == indexPath.section) {
         LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
-                                                           forIndexPath:indexPath];
+                                                                      forIndexPath:indexPath];
         return cell;
     }
     return nil;
@@ -85,7 +86,8 @@ enum {
     [self.view addSubview:self.tableView];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,@"topLayoutGuide":self.topLayoutGuide};
+    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,
+      @"topLayoutGuide" : self.topLayoutGuide};
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainTitleView]|"
                                                                       options:0
                                                                       metrics:nil
@@ -104,6 +106,7 @@ enum {
     _client = [[HttpClient alloc] init];
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
+    _page = 0;
 }
 
 - (void) viewDidLoad {
@@ -111,7 +114,7 @@ enum {
     [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
     [self.tableView registerClass:[LoadMoreIndicatorCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
 
-    [self.client fetchDataWithPage:0 withAgriculturalName:self.agriculturalName
+    [self.client fetchDataWithPage:self.page withAgriculturalName:self.agriculturalName
                     withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                  withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
          [self reloadTableView:data];
@@ -121,6 +124,10 @@ enum {
 - (void) reloadTableView:(NSArray *) array {
     [self.dataSourceArray addObjectsFromArray:array];
     [self.tableView reloadData];
+}
+
+- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
+    return [FarmTransTableViewCell cellHeight];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *) scrollView {
@@ -136,12 +143,12 @@ enum {
             return;
         }
         LoadMoreIndicatorCell *loadMoreIndicatorCell = (LoadMoreIndicatorCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
-                                                                                                         inSection:LoadMoreSection]];
+                                                                                                                                          inSection:LoadMoreSection]];
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
-        int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-        NSLog(@">>>>>>>>>>>> page = %i", page);
-        [self.client fetchDataWithPage:page withAgriculturalName:self.agriculturalName
+        //int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
+        self.page += 1;
+        [self.client fetchDataWithPage:self.page withAgriculturalName:self.agriculturalName
                         withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                      withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
              self.requestingFlag = NO;

@@ -46,8 +46,19 @@ int const FETCH_PAGE_SIZE = 30;
       @"Market" : escapedMarketName, @"EndDate" : endDate, @"StartDate" : startDate};
     NSLog(@">>>>>>>>>>>> [self makeURLStringWithParamsDictionary:params] = %@", [self makeURLStringWithParamsDictionary:params]);
     [self fetchDataWithURLString:[self makeURLStringWithParamsDictionary:params] completion:^(NSArray *array) {
-        completion(array);
+        NSArray *filteredArray = [self filterSimilarNameObject:array withCorrectName:agriculturalName];
+        completion(filteredArray);
     }];
+}
+
+- (NSArray *) filterSimilarNameObject:(NSArray *) array withCorrectName:(NSString *) correctName {
+    NSMutableArray *filteredArray = [NSMutableArray array];
+    for (FarmTransData *row in array) {
+        if ([row.agriculturalName isEqualToString:correctName]) {
+            [filteredArray addObject:row];
+        }
+    }
+    return [filteredArray copy];
 }
 
 - (void) fetchDataWithURLString:(NSString *) urlString completion:(void (^)(NSArray *)) completion {
