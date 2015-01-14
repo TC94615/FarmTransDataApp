@@ -27,6 +27,7 @@ PODS:
   - CocoaLumberjack/Core (1.9.2)
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
+  - CorePlot (1.5.1)
   - CrittercismSDK (5.0.7)
   - CRToast (0.0.7)
   - DejalActivityView (1.2)
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 2.2.2)
   - Bolts (~> 1.1.3)
   - CocoaLumberjack (~> 1.9.2)
+  - CorePlot (~> 1.5)
   - CrittercismSDK (~> 5.0.7)
   - CRToast (~> 0.0.7)
   - DejalActivityView (~> 1.2)
@@ -72,6 +74,7 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 546e77e3f2a9efd49fd8f7c754985af5a97f4fc7
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  CorePlot: b15cb1a9a687b9576545104248d6e22033e678bb
   CrittercismSDK: 1f1a91c7a51ca8044e675765bde5d2aa97295b1d
   CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b
   DejalActivityView: ef0970deefe891fefd57af27765ddb21a8265755
