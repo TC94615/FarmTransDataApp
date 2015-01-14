@@ -7,5 +7,6 @@
 
 
 @interface AppConstants : NSObject
+extern NSString *const FIRST_DAY_IN_SITE;
 extern NSInteger const ddLogLevel;
 @end

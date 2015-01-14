@@ -10,6 +10,7 @@
 #import "Dao.h"
 #import "FarmTransTableViewCell.h"
 #import "BottomCell.h"
+#import "AppConstants.h"
 
 enum {
     ContentsSection = 0,
@@ -41,7 +42,13 @@ enum {
 }
 
 - (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
-    return [self.dataSourceArray count];
+    if (ContentsSection == section) {
+        return [self.dataSourceArray count];
+    }
+    else if (LoadMoreSection == section) {
+        return 1;
+    }
+    return 0;
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
@@ -130,6 +137,32 @@ enum {
     addComponents.year = -1;
 
     return [calendar dateByAddingComponents:addComponents toDate:today options:0];
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *) scrollView {
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.bounds;
+    CGSize size = scrollView.contentSize;
+    UIEdgeInsets inset = scrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    float reload_distance = 10;
+    if (y > h + reload_distance) {
+        if (self.requestingFlag) {
+            return;
+        }
+        BottomCell *bottomCell = (BottomCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
+                                                                                                         inSection:LoadMoreSection]];
+        [bottomCell addActivityIndicator];
+        self.requestingFlag = YES;
+        int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
+
+        [self.client fetchDataWithPage:0 withAgriculturalName:self.agriculturalName
+                        withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
+                     withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
+             [self reloadTableView:data];
+         }];
+    }
 }
 
 @end

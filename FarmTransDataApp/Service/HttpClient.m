@@ -19,7 +19,6 @@ int const FETCH_PAGE_SIZE = 30;
 
 
 @interface HttpClient()
-@property (nonatomic, strong) Dao *dao;
 @end
 
 @implementation HttpClient
