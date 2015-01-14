@@ -23,78 +23,84 @@
 
         _columnAgriculturalNameLabel = [[UILabel alloc] init];
         [self addSubview:self.columnAgriculturalNameLabel];
+        self.columnAgriculturalNameLabel.textAlignment = NSTextAlignmentCenter;
         self.columnAgriculturalNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnAgriculturalNameLabel.text = NSLocalizedString(@"mainTitleView.agricultural_name", @"作物");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnAgriculturalNameLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
         _columnTopPriceLabel = [[UILabel alloc] init];
         [self addSubview:self.columnTopPriceLabel];
+        self.columnTopPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.columnTopPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnTopPriceLabel.text = NSLocalizedString(@"mainTitleView.top_price", @"上價");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnTopPriceLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
 
         _columnMidPriceLabel = [[UILabel alloc] init];
         [self addSubview:self.columnMidPriceLabel];
+        self.columnMidPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.columnMidPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnMidPriceLabel.text = NSLocalizedString(@"mainTitleView.mid_price", @"中價");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnMidPriceLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
 
         _columnBotPriceLabel = [[UILabel alloc] init];
         [self addSubview:self.columnBotPriceLabel];
+        self.columnBotPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.columnBotPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnBotPriceLabel.text = NSLocalizedString(@"mainTitleView.bot_price", @"下價");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnBotPriceLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
 
         _columnAvgPriceLabel = [[UILabel alloc] init];
         [self addSubview:self.columnAvgPriceLabel];
+        self.columnAvgPriceLabel.textAlignment = NSTextAlignmentCenter;
         self.columnAvgPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnAvgPriceLabel.text = NSLocalizedString(@"mainTitleView.avg_price", @"均價");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnAvgPriceLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
 
         _columnVolumeLabel = [[UILabel alloc] init];
         [self addSubview:self.columnVolumeLabel];
+        self.columnVolumeLabel.textAlignment = NSTextAlignmentCenter;
         self.columnVolumeLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.columnVolumeLabel.text = NSLocalizedString(@"mainTitleView.volume", @"量");
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.columnVolumeLabel
-                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:0.9
                                                                          constant:0.0]];
 
 

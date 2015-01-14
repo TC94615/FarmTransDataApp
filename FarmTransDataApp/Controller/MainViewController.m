@@ -23,6 +23,7 @@ enum {
     TotalSections
 };
 
+//TODO
 NSString *market = @"台北一";
 
 
@@ -66,7 +67,7 @@ NSString *market = @"台北一";
                                                                       metrics:nil
                                                                         views:views]];
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainTitleView(==50)][tableView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainTitleView(==100)][tableView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:views]];
