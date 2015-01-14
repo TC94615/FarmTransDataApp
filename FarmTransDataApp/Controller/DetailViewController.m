@@ -111,9 +111,8 @@ enum {
     [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
     [self.tableView registerClass:[BottomCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
 
-    NSString *lastYearInRepublicEra = [FarmTransData AD2RepublicEra:[self DateFromOneYearAgo]];
     [self.client fetchDataWithPage:0 withAgriculturalName:self.agriculturalName
-                    withMarketName:self.marketName withStartDateString:lastYearInRepublicEra
+                    withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                  withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
          [self reloadTableView:data];
      }];
@@ -122,21 +121,6 @@ enum {
 - (void) reloadTableView:(NSArray *) array {
     [self.dataSourceArray addObjectsFromArray:array];
     [self.tableView reloadData];
-}
-
-- (NSDate *) DateFromOneYearAgo {
-    NSDate *today = [[NSDate alloc] init];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-
-    /*
-      Create a date components to represent the number of years to add to the current date.
-      In this case, we add -1 to subtract one year.
-    */
-
-    NSDateComponents *addComponents = [[NSDateComponents alloc] init];
-    addComponents.year = -1;
-
-    return [calendar dateByAddingComponents:addComponents toDate:today options:0];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *) scrollView {
@@ -157,7 +141,7 @@ enum {
         self.requestingFlag = YES;
         int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
 
-        [self.client fetchDataWithPage:0 withAgriculturalName:self.agriculturalName
+        [self.client fetchDataWithPage:page withAgriculturalName:self.agriculturalName
                         withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                      withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
              [self reloadTableView:data];
