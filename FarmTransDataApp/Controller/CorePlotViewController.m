@@ -39,19 +39,18 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 }
 
 - (NSNumber *) numberForPlot:(CPTPlot *) plot field:(NSUInteger) fieldEnum recordIndex:(NSUInteger) idx {
-    NSString *key = (fieldEnum == CPTScatterPlotFieldX ? @"x" : @"y");
     NSNumber *num;
     num = [self.dataForPlot[idx] topPrice];
-    if ([(NSString *) plot.identifier isEqualToString:TOP_PRICE_PLOT_IDENTIFIER]) {
+    if ([plot.identifier isEqual:TOP_PRICE_PLOT_IDENTIFIER]) {
         num = [self.dataForPlot[idx] topPrice];
     }
-    else if ([(NSString *) plot.identifier isEqualToString:MID_PRICE_PLOT_IDENTIFIER]) {
+    else if ([plot.identifier isEqual:MID_PRICE_PLOT_IDENTIFIER]) {
         num = [self.dataForPlot[idx] midPrice];
     }
-    else if ([(NSString *) plot.identifier isEqualToString:BOT_PRICE_PLOT_IDENTIFIER]) {
+    else if ([plot.identifier isEqual:BOT_PRICE_PLOT_IDENTIFIER]) {
         num = [self.dataForPlot[idx] botPrice];
     }
-    else if ([(NSString *) plot.identifier isEqualToString:AVG_PRICE_PLOT_IDENTIFIER]) {
+    else if ([plot.identifier isEqual:AVG_PRICE_PLOT_IDENTIFIER]) {
         num = [self.dataForPlot[idx] avgPrice];
     }
 
@@ -80,7 +79,6 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     CGRect frame = CGRectMake(viewOrigin.x, viewOrigin.y, viewSize.width, viewSize.height);
 
     CPTGraphHostingView *hostView = [[CPTGraphHostingView alloc] initWithFrame:frame];
-//    CPTGraphHostingView *hostView = [[CPTGraphHostingView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     hostView.backgroundColor = [UIColor blueColor];
     [self.view addSubview:hostView];
 
@@ -97,7 +95,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 
     graph.plotAreaFrame.paddingTop = 20;
     graph.plotAreaFrame.paddingBottom = 80;
-    graph.plotAreaFrame.paddingLeft = 20;
+    graph.plotAreaFrame.paddingLeft = 30;
     graph.plotAreaFrame.paddingRight = 20;
 
     NSMutableArray *transDateArray = [NSMutableArray array];
@@ -120,30 +118,54 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     [mixPriceArray addObjectsFromArray:midPriceArray];
     [mixPriceArray addObjectsFromArray:botPriceArray];
     [mixPriceArray addObjectsFromArray:avgPriceArray];
-//    [mixPriceArray addObjectsFromArray:volumeArray];
 
     struct MinMaxValue minMaxValue = [self minMaxNumberInArray:mixPriceArray];
     NSLog(@">>>>>>>>>>>> min,max = %f,%f", minMaxValue.min, minMaxValue.max);
     [plotSpace setYRange:[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(minMaxValue.min)
-                                                      length:CPTDecimalFromFloat(minMaxValue.max - minMaxValue.min)]];
-    [plotSpace setXRange:[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-4) length:CPTDecimalFromFloat(8)]];
+                                                      length:CPTDecimalFromFloat(minMaxValue.max)]];
+    [plotSpace setXRange:[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
+                                                      length:CPTDecimalFromFloat([self.dataForPlot count])]];
+    NSLog(@">>>>>>>>>>>> x range = %@", plotSpace.xRange);
+    NSLog(@">>>>>>>>>>>> y range = %@", plotSpace.yRange);
+
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
+
+
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [numberFormatter setMinimumFractionDigits:0];
+    [numberFormatter setMaximumFractionDigits:0];
+    CPTXYAxis *y = axisSet.yAxis;
+    y.labelFormatter = numberFormatter;
 
     CPTScatterPlot *topPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+    CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle.lineColor = [CPTColor redColor];
+    topPricePlot.dataLineStyle = lineStyle;
     topPricePlot.dataSource = self;
     topPricePlot.identifier = TOP_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:topPricePlot toPlotSpace:graph.defaultPlotSpace];
 
     CPTScatterPlot *midPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+    lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle.lineColor = [CPTColor greenColor];
+    midPricePlot.dataLineStyle = lineStyle;
     midPricePlot.dataSource = self;
     midPricePlot.identifier = MID_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:midPricePlot toPlotSpace:graph.defaultPlotSpace];
 
     CPTScatterPlot *botPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+    lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle.lineColor = [CPTColor blueColor];
+    botPricePlot.dataLineStyle = lineStyle;
     botPricePlot.dataSource = self;
     botPricePlot.identifier = BOT_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:botPricePlot toPlotSpace:graph.defaultPlotSpace];
 
     CPTScatterPlot *avgPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
+    lineStyle = [CPTMutableLineStyle lineStyle];
+    lineStyle.lineColor = [CPTColor whiteColor];
+    avgPricePlot.dataLineStyle = lineStyle;
     avgPricePlot.dataSource = self;
     avgPricePlot.identifier = AVG_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:avgPricePlot toPlotSpace:graph.defaultPlotSpace];
