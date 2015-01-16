@@ -36,7 +36,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 }
 
 - (NSUInteger) numberOfRecordsForPlot:(CPTPlot *) plot {
-    return [self.dataForPlot count];
+    return self.dataForPlot.count;
 }
 
 - (NSNumber *) numberForPlot:(CPTPlot *) plot field:(NSUInteger) fieldEnum recordIndex:(NSUInteger) idx {
@@ -56,7 +56,6 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     }
 
     if (fieldEnum == CPTScatterPlotFieldY) {
-        NSLog(@">>>>>>>>>>>> plot:(x,y) = %@:(%u,%@)", plot.identifier, idx, num);
         return num;
     }
     return @(idx);
@@ -89,13 +88,13 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
 
-    graph.paddingTop = 30.0;
-    graph.paddingBottom = 30.0;
-    graph.paddingLeft = 30.0;
-    graph.paddingRight = 30.0;
+    graph.paddingTop = 20.0;
+    graph.paddingBottom = 20.0;
+    graph.paddingLeft = 20.0;
+    graph.paddingRight = 20.0;
 
     graph.plotAreaFrame.paddingTop = 20;
-    graph.plotAreaFrame.paddingBottom = 100;
+    graph.plotAreaFrame.paddingBottom = 70;
     graph.plotAreaFrame.paddingLeft = 30;
     graph.plotAreaFrame.paddingRight = 20;
 
@@ -125,22 +124,37 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     [plotSpace setYRange:[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(minMaxValue.min)
                                                       length:CPTDecimalFromFloat(minMaxValue.max)]];
     [plotSpace setXRange:[CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
-                                                      length:CPTDecimalFromFloat([self.dataForPlot count])]];
-    NSLog(@">>>>>>>>>>>> x range = %@", plotSpace.xRange);
-    NSLog(@">>>>>>>>>>>> y range = %@", plotSpace.yRange);
+                                                      length:CPTDecimalFromFloat(self.dataForPlot.count)]];
 
 #pragma axis setting
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *) graph.axisSet;
-    float quintile = [self.dataForPlot count] / FIVE;
+    float quintile = self.dataForPlot.count / FIVE;
     CPTXYAxis *x = axisSet.xAxis;
     x.majorIntervalLength = CPTDecimalFromDouble(quintile);
-    x.orthogonalCoordinateDecimal = CPTDecimalFromDouble(2.0);
-    x.minorTicksPerInterval = 5;
+    x.orthogonalCoordinateDecimal = CPTDecimalFromDouble(5.0);
+    CPTMutableTextStyle *style = [CPTMutableTextStyle textStyle];
+    style.color = [CPTColor blackColor];
+    style.fontName = @"Arial";
+    style.fontSize = 12.0f;
+    NSMutableArray *labels = [NSMutableArray array];
+    NSInteger idx = 0;
+    for (NSString *dateString in transDateArray) {
+        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:dateString
+                                                       textStyle:style];
+        label.rotation = CPTFloat(M_PI_4);
+        label.offset = 0;
+        label.tickLocation = CPTDecimalFromInteger(idx);
+        [labels addObject:label];
+        idx += 1;
+    }
+    x.labelingPolicy = CPTAxisLabelingPolicyNone;
+    x.axisLabels = [NSSet setWithArray:labels];
+
 
     CPTXYAxis *y = axisSet.yAxis;
     quintile = (minMaxValue.max - minMaxValue.min) / FIVE;
     y.majorIntervalLength = CPTDecimalFromDouble(quintile);
-    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0);
+    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(-0.5);
     y.minorTicksPerInterval = 5;
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -195,8 +209,5 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     return minMaxValue;
 }
 
-- (BOOL) axis:(CPTAxis *) axis shouldUpdateAxisLabelsAtLocations:(NSSet *) locations {
-    return NO;
-}
 
 @end
