@@ -9,5 +9,5 @@
 
 @interface CorePlotViewController : UIViewController
 
-- (instancetype) initWithDataArray:(NSArray *) dataArray;
+- (instancetype) initWithDataArray:(NSArray *) dataForPlot;
 @end
