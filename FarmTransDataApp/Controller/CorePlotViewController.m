@@ -19,12 +19,13 @@ enum {
     AvgPlot
 };
 
+int const FIVE = 5;
 NSString *const TOP_PRICE_PLOT_IDENTIFIER = @"topPricePlotIdentifier";
 NSString *const MID_PRICE_PLOT_IDENTIFIER = @"midPricePlotIdentifier";
 NSString *const BOT_PRICE_PLOT_IDENTIFIER = @"botPricePlotIdentifier";
 NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 
-@interface CorePlotViewController()<CPTPlotDataSource>
+@interface CorePlotViewController()<CPTPlotDataSource, CPTAxisDelegate>
 @property (nonatomic, strong) NSArray *dataForPlot;
 @end
 
@@ -94,7 +95,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     graph.paddingRight = 30.0;
 
     graph.plotAreaFrame.paddingTop = 20;
-    graph.plotAreaFrame.paddingBottom = 80;
+    graph.plotAreaFrame.paddingBottom = 100;
     graph.plotAreaFrame.paddingLeft = 30;
     graph.plotAreaFrame.paddingRight = 20;
 
@@ -128,16 +129,26 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     NSLog(@">>>>>>>>>>>> x range = %@", plotSpace.xRange);
     NSLog(@">>>>>>>>>>>> y range = %@", plotSpace.yRange);
 
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)graph.axisSet;
+#pragma axis setting
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *) graph.axisSet;
+    float quintile = [self.dataForPlot count] / FIVE;
+    CPTXYAxis *x = axisSet.xAxis;
+    x.majorIntervalLength = CPTDecimalFromDouble(quintile);
+    x.orthogonalCoordinateDecimal = CPTDecimalFromDouble(2.0);
+    x.minorTicksPerInterval = 5;
 
-
+    CPTXYAxis *y = axisSet.yAxis;
+    quintile = (minMaxValue.max - minMaxValue.min) / FIVE;
+    y.majorIntervalLength = CPTDecimalFromDouble(quintile);
+    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(0);
+    y.minorTicksPerInterval = 5;
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [numberFormatter setMinimumFractionDigits:0];
     [numberFormatter setMaximumFractionDigits:0];
-    CPTXYAxis *y = axisSet.yAxis;
     y.labelFormatter = numberFormatter;
 
+#pragma plot setting
     CPTScatterPlot *topPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
     CPTMutableLineStyle *lineStyle = [CPTMutableLineStyle lineStyle];
     lineStyle.lineColor = [CPTColor redColor];
@@ -183,4 +194,9 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     }
     return minMaxValue;
 }
+
+- (BOOL) axis:(CPTAxis *) axis shouldUpdateAxisLabelsAtLocations:(NSSet *) locations {
+    return NO;
+}
+
 @end
