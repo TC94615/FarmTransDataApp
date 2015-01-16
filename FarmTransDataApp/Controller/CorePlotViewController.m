@@ -139,12 +139,14 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     NSMutableArray *labels = [NSMutableArray array];
     NSInteger idx = 0;
     for (NSString *dateString in transDateArray) {
-        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:dateString
-                                                       textStyle:style];
-        label.rotation = CPTFloat(M_PI_4);
-        label.offset = 0;
-        label.tickLocation = CPTDecimalFromInteger(idx);
-        [labels addObject:label];
+        if (idx % (int) quintile == 0) {
+            CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:dateString
+                                                           textStyle:style];
+            label.rotation = CPTFloat(M_PI_4);
+            label.offset = 0;
+            label.tickLocation = CPTDecimalFromInteger(idx);
+            [labels addObject:label];
+        }
         idx += 1;
     }
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
@@ -152,10 +154,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 
 
     CPTXYAxis *y = axisSet.yAxis;
-    quintile = (minMaxValue.max - minMaxValue.min) / FIVE;
-    y.majorIntervalLength = CPTDecimalFromDouble(quintile);
-    y.orthogonalCoordinateDecimal = CPTDecimalFromDouble(-0.5);
-    y.minorTicksPerInterval = 5;
+    y.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [numberFormatter setMinimumFractionDigits:0];
