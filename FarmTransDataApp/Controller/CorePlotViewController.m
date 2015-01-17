@@ -12,13 +12,6 @@ struct MinMaxValue {
     float max;
 };
 
-enum {
-    TopPlot = 0,
-    MidPlot,
-    BotPlot,
-    AvgPlot
-};
-
 int const FIVE = 5;
 NSString *const TOP_PRICE_PLOT_IDENTIFIER = @"topPricePlotIdentifier";
 NSString *const MID_PRICE_PLOT_IDENTIFIER = @"midPricePlotIdentifier";
@@ -31,7 +24,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
 
 @implementation CorePlotViewController
 - (instancetype) initWithDataArray:(NSArray *) dataForPlot {
-    _dataForPlot = dataForPlot;
+    _dataForPlot = [[dataForPlot reverseObjectEnumerator] allObjects];
     return self;
 }
 
@@ -133,7 +126,7 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     x.majorIntervalLength = CPTDecimalFromDouble(quintile);
     x.orthogonalCoordinateDecimal = CPTDecimalFromDouble(5.0);
     CPTMutableTextStyle *style = [CPTMutableTextStyle textStyle];
-    style.color = [CPTColor blackColor];
+    style.color = [CPTColor grayColor];
     style.fontName = @"Arial";
     style.fontSize = 12.0f;
     NSMutableArray *labels = [NSMutableArray array];
@@ -169,6 +162,10 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     topPricePlot.dataSource = self;
     topPricePlot.identifier = TOP_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:topPricePlot toPlotSpace:graph.defaultPlotSpace];
+    CPTPlotSymbol *plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    plotSymbol.fill = [CPTFill fillWithColor:[CPTColor redColor]];
+    plotSymbol.size = CGSizeMake(10.0, 10.0);
+    topPricePlot.plotSymbol = plotSymbol;
 
     CPTScatterPlot *midPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
     lineStyle = [CPTMutableLineStyle lineStyle];
@@ -177,6 +174,9 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     midPricePlot.dataSource = self;
     midPricePlot.identifier = MID_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:midPricePlot toPlotSpace:graph.defaultPlotSpace];
+    plotSymbol.fill = [CPTFill fillWithColor:[CPTColor greenColor]];
+    plotSymbol.size = CGSizeMake(10.0, 10.0);
+    midPricePlot.plotSymbol = plotSymbol;
 
     CPTScatterPlot *botPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
     lineStyle = [CPTMutableLineStyle lineStyle];
@@ -185,6 +185,9 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     botPricePlot.dataSource = self;
     botPricePlot.identifier = BOT_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:botPricePlot toPlotSpace:graph.defaultPlotSpace];
+    plotSymbol.fill = [CPTFill fillWithColor:[CPTColor blueColor]];
+    plotSymbol.size = CGSizeMake(10.0, 10.0);
+    botPricePlot.plotSymbol = plotSymbol;
 
     CPTScatterPlot *avgPricePlot = [[CPTScatterPlot alloc] initWithFrame:CGRectZero];
     lineStyle = [CPTMutableLineStyle lineStyle];
@@ -193,6 +196,9 @@ NSString *const AVG_PRICE_PLOT_IDENTIFIER = @"avgPricePlotIdentifier";
     avgPricePlot.dataSource = self;
     avgPricePlot.identifier = AVG_PRICE_PLOT_IDENTIFIER;
     [graph addPlot:avgPricePlot toPlotSpace:graph.defaultPlotSpace];
+    plotSymbol.fill = [CPTFill fillWithColor:[CPTColor whiteColor]];
+    plotSymbol.size = CGSizeMake(10.0, 10.0);
+    avgPricePlot.plotSymbol = plotSymbol;
 }
 
 
