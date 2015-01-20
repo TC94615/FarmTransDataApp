@@ -7,10 +7,12 @@
 
 extern int const FETCH_PAGE_SIZE;
 
-
 @interface HttpClient : NSObject
 
-- (void) fetchDataWithPage:(int) page withAgriculturalName:(NSString *) agriculturalName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion;
++ (id) sharedManager;
+
+- (void) fetchDataWithPage:(int) page withCropName:(NSString *) cropName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion;
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) marketName startDateString:(NSString *) startDate completion:(void (^)(NSArray *)) completion;
+
 @end

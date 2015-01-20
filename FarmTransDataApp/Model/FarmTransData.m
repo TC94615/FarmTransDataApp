@@ -4,15 +4,16 @@
 //
 
 #import "FarmTransData.h"
-static int const FIRST_YEAR_OF_REPUBLIC = 1911;
+
+static int const FIRST_YEAR_OF_REPUBLIC_IN_AD = 1911;
 
 @implementation FarmTransData
 
 + (NSDictionary *) JSONKeyPathsByPropertyKey {
     return @{
       @"transDate" : @"交易日期",
-      @"agriculturalId" : @"作物代號",
-      @"agriculturalName" : @"作物名稱",
+      @"cropId" : @"作物代號",
+      @"cropName" : @"作物名稱",
       @"marketId" : @"市場代號",
       @"marketName" : @"市場名稱",
       @"topPrice" : @"上價",
@@ -29,11 +30,12 @@ static int const FIRST_YEAR_OF_REPUBLIC = 1911;
     return dateFormatter;
 }
 
-+ (NSString *) AD2RepublicEra : (NSDate *) date {
++ (NSString *) AD2RepublicEra:(NSDate *) date {
     NSString *dateString = [[self dateFormatter] stringFromDate:date];
     NSArray *dateArray = [dateString componentsSeparatedByString:@"-"];
-    NSString *year = [@([dateArray[0] integerValue] - FIRST_YEAR_OF_REPUBLIC) stringValue];
-    NSString *dateWithRepublicEra = [NSString stringWithFormat:@"%@.%@.%@", year, dateArray[1], dateArray[2]];
+    NSString *thisYearInRepublicEra = [@([dateArray[0] integerValue] - FIRST_YEAR_OF_REPUBLIC_IN_AD) stringValue];
+    NSString *dateWithRepublicEra = [NSString stringWithFormat:@"%@.%@.%@", thisYearInRepublicEra, dateArray[1],
+                                                               dateArray[2]];
     return dateWithRepublicEra;
 }
 @end

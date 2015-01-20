@@ -5,13 +5,11 @@
 
 #import "LoadMoreIndicatorCell.h"
 
-NSString *const bottomCellReuseIdentifier = @"LoadMoreIndicatorCell";
-
+NSString *const loadMoreIndicatorCellReuseIdentifier = @"LoadMoreIndicatorCell";
 
 @implementation LoadMoreIndicatorCell
 
 - (void) addActivityIndicator {
-    NSLog(@"In addActivityIndicator...");
     if (self) {
 
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -33,7 +31,6 @@ NSString *const bottomCellReuseIdentifier = @"LoadMoreIndicatorCell";
                                                                      attribute:NSLayoutAttributeCenterY
                                                                     multiplier:1
                                                                       constant:0]];
-        NSLog(@"indicator triggered");
     }
 }
 

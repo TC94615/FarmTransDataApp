@@ -7,7 +7,6 @@
 #import "FarmTransData.h"
 #import "MainTitleView.h"
 #import "HttpClient.h"
-#import "Dao.h"
 #import "FarmTransTableViewCell.h"
 #import "LoadMoreIndicatorCell.h"
 #import "AppConstants.h"
@@ -26,57 +25,28 @@ enum {
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
 @property (nonatomic, strong) HttpClient *client;
 @property (nonatomic, assign) BOOL requestingFlag;
-@property (nonatomic, strong) Dao *dao;
-@property (nonatomic, strong) NSString *agriculturalName;
+@property (nonatomic, strong) NSString *cropName;
 @property (nonatomic, strong) NSString *marketName;
 @property (nonatomic, strong) NSString *thisDateInRepublicEra;
 @property (nonatomic, assign) int page;
 @end
 
 @implementation DetailViewController
-- (instancetype) initWithAriculturalId:(NSString *) agriculturalName andMarketId:(NSString *) marketName {
+
+- (instancetype) initWithCropId:(NSString *) cropName andMarketId:(NSString *) marketName {
     self = [super init];
     if (self) {
-        _agriculturalName = agriculturalName;
+        _cropName = cropName;
         _marketName = marketName;
     }
     return self;
-}
-
-- (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
-    if (ContentsSection == section) {
-        return [self.dataSourceArray count];
-    }
-    else if (LoadMoreSection == section) {
-        return 1;
-    }
-    return 0;
-}
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
-    return TotalSections;
-}
-
-- (UITableViewCell *) tableView:(UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *) indexPath {
-    if (ContentsSection == indexPath.section) {
-        FarmTransTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier
-                                                                       forIndexPath:indexPath];
-        [cell updateCellInDetail:self.dataSourceArray[indexPath.row]];
-        return cell;
-    }
-    else if (LoadMoreSection == indexPath.section) {
-        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
-                                                                      forIndexPath:indexPath];
-        return cell;
-    }
-    return nil;
 }
 
 - (void) loadView {
     UIView *view = [[UIView alloc] init];
     self.view = view;
 
-    _mainTitleView = [[MainTitleView alloc] init];
+    _mainTitleView = [[MainTitleView alloc] initWithTransDate];
     [self.view addSubview:self.mainTitleView];
     self.mainTitleView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mainTitleView.backgroundColor = [UIColor redColor];
@@ -103,15 +73,44 @@ enum {
                                                                       metrics:nil
                                                                         views:views]];
     _dataSourceArray = [NSMutableArray array];
-
-    _client = [[HttpClient alloc] init];
+    _client = [HttpClient sharedManager];
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
     _page = 0;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"plot"
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", self.cropName, self.marketName];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.rightBarButton_name", nil)
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(clickRightBarButton:)];
+}
+
+- (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
+    if (ContentsSection == section) {
+        return [self.dataSourceArray count];
+    }
+    else if (LoadMoreSection == section) {
+        return 1;
+    }
+    return 0;
+}
+
+- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
+    return TotalSections;
+}
+
+- (UITableViewCell *) tableView:(UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *) indexPath {
+    if (ContentsSection == indexPath.section) {
+        FarmTransTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier
+                                                                       forIndexPath:indexPath];
+        [cell updateCellInDetail:self.dataSourceArray[indexPath.row]];
+        return cell;
+    }
+    else if (LoadMoreSection == indexPath.section) {
+        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:loadMoreIndicatorCellReuseIdentifier
+                                                                      forIndexPath:indexPath];
+        return cell;
+    }
+    return nil;
 }
 
 - (void) clickRightBarButton:(UIBarButtonItem *) sender {
@@ -122,9 +121,10 @@ enum {
 - (void) viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
-    [self.tableView registerClass:[LoadMoreIndicatorCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
+    [self.tableView registerClass:[LoadMoreIndicatorCell class]
+           forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
-    [self.client fetchDataWithPage:self.page withAgriculturalName:self.agriculturalName
+    [self.client fetchDataWithPage:self.page withCropName:self.cropName
                     withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                  withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
          [self reloadTableView:data];
@@ -156,9 +156,8 @@ enum {
                                                                                                                                           inSection:LoadMoreSection]];
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
-        //int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
         self.page += 1;
-        [self.client fetchDataWithPage:self.page withAgriculturalName:self.agriculturalName
+        [self.client fetchDataWithPage:self.page withCropName:self.cropName
                         withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
                      withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
              self.requestingFlag = NO;

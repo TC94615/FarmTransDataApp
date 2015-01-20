@@ -3,14 +3,15 @@
 // Copyright (c) 2014 李道政. All rights reserved.
 //
 
+#import <CocoaLumberjack/DDLog.h>
 #import "MainViewController.h"
 #import "FarmTransData.h"
 #import "HttpClient.h"
 #import "FarmTransTableViewCell.h"
 #import "LoadMoreIndicatorCell.h"
 #import "MainTitleView.h"
-#import "Dao.h"
 #import "DetailViewController.h"
+#import "AppConstants.h"
 
 
 //market list
@@ -31,22 +32,21 @@ NSString *market = @"台北一";
 @property (nonatomic, strong) MainTitleView *mainTitleView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
-
 @property (nonatomic, strong) HttpClient *client;
 @property (nonatomic, assign) BOOL requestingFlag;
 @property (nonatomic, strong) NSString *thisDateInRepublicEra;
-@property (nonatomic, strong) Dao *dao;
 @end
 
 @implementation MainViewController
 
 - (void) loadView {
-    self.navigationController.view.backgroundColor= [UIColor redColor];
+    [super loadView];
+    self.navigationController.view.backgroundColor = [UIColor redColor];
     self.navigationController.title = @"TITLE";
     UIView *view = [[UIView alloc] init];
     self.view = view;
 
-    _mainTitleView = [[MainTitleView alloc] init];
+    _mainTitleView = [[MainTitleView alloc] initWithCropName];
     [self.view addSubview:self.mainTitleView];
     self.mainTitleView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mainTitleView.backgroundColor = [UIColor redColor];
@@ -57,7 +57,8 @@ NSString *market = @"台北一";
     [self.view addSubview:self.tableView];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,@"topLayoutGuide":self.topLayoutGuide};
+    NSDictionary *views = @{@"mainTitleView" : self.mainTitleView, @"tableView" : self.tableView,
+      @"topLayoutGuide" : self.topLayoutGuide};
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainTitleView]|"
                                                                       options:0
                                                                       metrics:nil
@@ -72,37 +73,40 @@ NSString *market = @"台北一";
                                                                       metrics:nil
                                                                         views:views]];
     _dataSourceArray = [NSMutableArray array];
-    _client = [[HttpClient alloc] init];
+    _client = [HttpClient sharedManager];
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
-    _dao = [Dao sharedDao];
-    [self.dao createTable];
+}
 
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
+    [self.tableView registerClass:[LoadMoreIndicatorCell class]
+           forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
+    [self.client fetchDataWithPage:0 market:market
+                   startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
+         if (!data.count) {
+             DDLogInfo(@"fetch no data at %@", self.thisDateInRepublicEra);
+             NSDate *yesterday = [[NSDate date] dateByAddingTimeInterval:-86400.0];
+             self.thisDateInRepublicEra = [FarmTransData AD2RepublicEra:yesterday];
+             [self.client fetchDataWithPage:0 market:market
+                            startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
+                  [self reloadTableView:data];
+              }];
+         }
+         [self reloadTableView:data];
+     }];
 }
 
 - (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
     return [FarmTransTableViewCell cellHeight];
 }
 
-
 - (void) reloadTableView:(NSArray *) array {
     [self.dataSourceArray addObjectsFromArray:array];
     [self.tableView reloadData];
 };
-
-- (void) viewDidLoad {
-    [super viewDidLoad];
-    [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
-    [self.tableView registerClass:[LoadMoreIndicatorCell class] forCellReuseIdentifier:bottomCellReuseIdentifier];
-
-
-    [self.client fetchDataWithPage:0 market:market
-                   startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
-         [self reloadTableView:data];
-     }];
-
-}
 
 - (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
     if (ContentsSection == section) {
@@ -117,8 +121,8 @@ NSString *market = @"台北一";
 - (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
     if (ContentsSection == indexPath.section) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithAriculturalId:[self.dataSourceArray[indexPath.row] agriculturalName]
-                                                                                             andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithCropId:[self.dataSourceArray[indexPath.row] cropName]
+                                                                                      andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
         [self.navigationController pushViewController:detailViewController
                                              animated:YES];
     }
@@ -138,8 +142,8 @@ NSString *market = @"台北一";
         return cell;
     }
     else if (LoadMoreSection == indexPath.section) {
-        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:bottomCellReuseIdentifier
-                                                           forIndexPath:indexPath];
+        LoadMoreIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:loadMoreIndicatorCellReuseIdentifier
+                                                                      forIndexPath:indexPath];
         return cell;
     }
     return nil;
@@ -158,10 +162,10 @@ NSString *market = @"台北一";
             return;
         }
         LoadMoreIndicatorCell *loadMoreIndicatorCell = (LoadMoreIndicatorCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0
-                                                                                                         inSection:LoadMoreSection]];
+                                                                                                                                          inSection:LoadMoreSection]];
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
-        int page = ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
+        int page = (int) ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
         [self.client fetchDataWithPage:page market:market
                        startDateString:self.thisDateInRepublicEra completion:^(NSArray *completion) {
              self.requestingFlag = NO;

@@ -9,9 +9,7 @@
 NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 
 @interface FarmTransTableViewCell()
-//@property (nonatomic, strong) UILabel *transDateLabel;
-@property (nonatomic, strong) UILabel *cropNameLabel;
-@property (nonatomic, strong) UILabel *transDateLabel;
+@property (nonatomic, strong) UILabel *cropNameOrTransDateLabel;
 @property (nonatomic, strong) UILabel *topPriceLabel;
 @property (nonatomic, strong) UILabel *midPriceLabel;
 @property (nonatomic, strong) UILabel *botPriceLabel;
@@ -25,31 +23,18 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-        _cropNameLabel = [[UILabel alloc] init];
-        self.cropNameLabel.textAlignment = NSTextAlignmentCenter;
-        self.cropNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.cropNameLabel.numberOfLines = 2;
-        [self.contentView addSubview:self.cropNameLabel];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cropNameLabel
+        _cropNameOrTransDateLabel = [[UILabel alloc] init];
+        self.cropNameOrTransDateLabel.textAlignment = NSTextAlignmentCenter;
+        self.cropNameOrTransDateLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.cropNameOrTransDateLabel.numberOfLines = 2;
+        [self.contentView addSubview:self.cropNameOrTransDateLabel];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cropNameOrTransDateLabel
                                                                      attribute:NSLayoutAttributeCenterY
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeCenterY
                                                                     multiplier:1.0
                                                                       constant:0]];
-        _transDateLabel = [[UILabel alloc] init];
-        self.transDateLabel.textAlignment = NSTextAlignmentCenter;
-        self.transDateLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.transDateLabel.numberOfLines = 2;
-        [self.contentView addSubview:self.transDateLabel];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.transDateLabel
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                    multiplier:1.0
-                                                                      constant:0]];
-
 
         _topPriceLabel = [[UILabel alloc] init];
         self.topPriceLabel.textAlignment = NSTextAlignmentCenter;
@@ -113,8 +98,7 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 
 
         NSDictionary *views = @{
-          @"agriculturalNameLabel" : self.cropNameLabel,
-          @"transDateLabel" : self.transDateLabel,
+          @"cropNameOrTransDateLabel" : self.cropNameOrTransDateLabel,
           @"topPriceLabel" : self.topPriceLabel,
           @"midPriceLabel" : self.midPriceLabel,
           @"botPriceLabel" : self.botPriceLabel,
@@ -123,13 +107,12 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 
 
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:
-                                                               @"|[agriculturalNameLabel]"
-                                                                 "[transDateLabel(==agriculturalNameLabel)]"
-                                                                 "[topPriceLabel(==agriculturalNameLabel)]"
-                                                                 "[midPriceLabel(==agriculturalNameLabel)]"
-                                                                 "[botPriceLabel(==agriculturalNameLabel)]"
-                                                                 "[avgPriceLabel(==agriculturalNameLabel)]"
-                                                                 "[volumeLabel(==agriculturalNameLabel)]|"
+                                                               @"|[cropNameOrTransDateLabel]"
+                                                                 "[topPriceLabel(==cropNameOrTransDateLabel)]"
+                                                                 "[midPriceLabel(==cropNameOrTransDateLabel)]"
+                                                                 "[botPriceLabel(==cropNameOrTransDateLabel)]"
+                                                                 "[avgPriceLabel(==cropNameOrTransDateLabel)]"
+                                                                 "[volumeLabel(==cropNameOrTransDateLabel)]|"
                                                                                  options:0
                                                                                  metrics:nil
                                                                                    views:views]];
@@ -138,14 +121,12 @@ NSString *const cellReuseIdentifier = @"CellReuseIdentifier";
 }
 
 - (void) updateCellInMain:(FarmTransData *) data {
-    self.cropNameLabel.text = data.agriculturalName;
-    self.transDateLabel.text = data.transDate;
+    self.cropNameOrTransDateLabel.text = data.cropName;
     [self updateCellPrices:data];
 }
 
 - (void) updateCellInDetail:(FarmTransData *) data {
-    self.cropNameLabel.text = data.agriculturalName;
-    self.transDateLabel.text = data.transDate;
+    self.cropNameOrTransDateLabel.text = data.transDate;
     [self updateCellPrices:data];
 }
 

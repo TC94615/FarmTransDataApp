@@ -8,4 +8,7 @@
 
 @interface MainTitleView : UIView
 
+- (instancetype) initWithCropName;
+
+- (instancetype) initWithTransDate;
 @end

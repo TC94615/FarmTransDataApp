@@ -8,5 +8,5 @@
 
 
 @interface DetailViewController : UIViewController
-- (instancetype) initWithAriculturalId:(NSString *) agriculturalName andMarketId:(NSString *) marketName;
+- (instancetype) initWithCropId:(NSString *) cropName andMarketId:(NSString *) marketName;
 @end

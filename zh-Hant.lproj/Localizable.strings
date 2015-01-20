@@ -6,9 +6,11 @@
   Copyright (c) 2015年 李道政. All rights reserved.
 */
 
-"mainTitleView.agricultural_name" = "作物";
+"mainTitleView.crop_name" = "作物";
+"mainTitleView.trans_date" = "日期";
 "mainTitleView.top_price" = "上價";
 "mainTitleView.mid_price" = "中價";
 "mainTitleView.bot_price" = "下價";
 "mainTitleView.avg_price" = "均價";
 "mainTitleView.volume" = "量";
+"detailViewController.navigationItem.rightBarButton_name" = "看圖";

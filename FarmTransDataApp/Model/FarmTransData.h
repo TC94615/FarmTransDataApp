@@ -9,8 +9,8 @@
 
 @interface FarmTransData : MTLModel<MTLJSONSerializing>
 @property (nonatomic, strong) NSString *transDate;
-@property (nonatomic, strong) NSString *agriculturalId;
-@property (nonatomic, strong) NSString *agriculturalName;
+@property (nonatomic, strong) NSString *cropId;
+@property (nonatomic, strong) NSString *cropName;
 @property (nonatomic, strong) NSNumber *marketId;
 @property (nonatomic, strong) NSString *marketName;
 @property (nonatomic, strong) NSNumber *topPrice;
@@ -22,4 +22,5 @@
 + (NSDateFormatter *) dateFormatter;
 
 + (NSString *) AD2RepublicEra:(NSDate *) date;
+
 @end

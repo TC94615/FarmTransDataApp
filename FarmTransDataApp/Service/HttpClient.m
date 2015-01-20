@@ -5,23 +5,27 @@
 
 #import <Mantle/MTLJSONAdapter.h>
 #import "HttpClient.h"
-#import "BFTask.h"
-#import "DDLog.h"
-#import "BFTaskCompletionSource.h"
-#import "AFURLRequestSerialization.h"
-#import "AFHTTPRequestOperation.h"
 #import "FarmTransData.h"
-#import "Dao.h"
+#import "DDLog.h"
+#import "AppConstants.h"
 
 static NSString *const site = @"http://m.coa.gov.tw";
 static NSString *const path = @"/OpenData/FarmTransData.aspx";
 int const FETCH_PAGE_SIZE = 30;
 
-
 @interface HttpClient()
 @end
 
 @implementation HttpClient
+
++ (id) sharedManager {
+    static HttpClient *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
 
 - (instancetype) init {
     self = [super init];
@@ -33,20 +37,19 @@ int const FETCH_PAGE_SIZE = 30;
     int skip = FETCH_PAGE_SIZE * page;
     NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"market" : escapedMarketName,
       @"StartDate" : startDate};
-    [self fetchDataWithURLString:[self makeURLStringWithParamsDictionary:params] completion:^(NSArray *array) {
+    [self fetchDataWithParams:params completion:^(NSArray *array) {
         completion(array);
     }];
 }
 
-- (void) fetchDataWithPage:(int) page withAgriculturalName:(NSString *) agriculturalName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion {
+- (void) fetchDataWithPage:(int) page withCropName:(NSString *) cropName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion {
     NSString *escapedMarketName = [marketName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *escapedCropName = [agriculturalName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *escapedCropName = [cropName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     int skip = FETCH_PAGE_SIZE * page;
     NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"Crop" : escapedCropName,
       @"Market" : escapedMarketName, @"EndDate" : endDate, @"StartDate" : startDate};
-    NSLog(@">>>>>>>>>>>> [self makeURLStringWithParamsDictionary:params] = %@", [self makeURLStringWithParamsDictionary:params]);
-    [self fetchDataWithURLString:[self makeURLStringWithParamsDictionary:params] completion:^(NSArray *array) {
-        NSArray *filteredArray = [self filterSimilarNameObject:array withCorrectName:agriculturalName];
+    [self fetchDataWithParams:params completion:^(NSArray *array) {
+        NSArray *filteredArray = [self filterSimilarNameObject:array withCorrectName:cropName];
         completion(filteredArray);
     }];
 }
@@ -54,14 +57,25 @@ int const FETCH_PAGE_SIZE = 30;
 - (NSArray *) filterSimilarNameObject:(NSArray *) array withCorrectName:(NSString *) correctName {
     NSMutableArray *filteredArray = [NSMutableArray array];
     for (FarmTransData *row in array) {
-        if ([row.agriculturalName isEqualToString:correctName]) {
+        if ([row.cropName isEqualToString:correctName]) {
             [filteredArray addObject:row];
         }
     }
     return [filteredArray copy];
 }
 
-- (void) fetchDataWithURLString:(NSString *) urlString completion:(void (^)(NSArray *)) completion {
+- (void) fetchDataWithParams:(NSDictionary *) params completion:(void (^)(NSArray *)) completion {
+    NSMutableString *paramString = [[NSMutableString alloc] init];
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [paramString appendFormat:@"%@=%@&", key, obj];
+    }];
+
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", site, path];
+    if ([paramString length]) {
+        urlString = [urlString stringByAppendingFormat:@"?%@", paramString];
+        urlString = [urlString substringWithRange:NSMakeRange(0, [urlString length] - 1)];
+    }
+    DDLogInfo(@"fetch url: %@", urlString);
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:urlString]
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -77,17 +91,4 @@ int const FETCH_PAGE_SIZE = 30;
     [dataTask resume];
 }
 
-- (NSString *) makeURLStringWithParamsDictionary:(NSDictionary *) params {
-    NSMutableString *paramString = [[NSMutableString alloc] init];
-    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [paramString appendFormat:@"%@=%@&", key, obj];
-    }];
-
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", site, path];
-    if ([paramString length]) {
-        urlString = [urlString stringByAppendingFormat:@"?%@", paramString];
-        urlString = [urlString substringWithRange:NSMakeRange(0, [urlString length] - 1)];
-    }
-    return urlString;
-}
 @end

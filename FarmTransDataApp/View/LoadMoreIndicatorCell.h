@@ -6,10 +6,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-extern NSString *const bottomCellReuseIdentifier;
+extern NSString *const loadMoreIndicatorCellReuseIdentifier;
 
 @interface LoadMoreIndicatorCell : UITableViewCell
-//@property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
-
 - (void) addActivityIndicator;
 @end
