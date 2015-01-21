@@ -75,19 +75,7 @@ NSString *market = @"台北一";
     _dataSourceArray = [NSMutableArray array];
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
-    [self setThisDateInRepublicEra];
 
-}
-
-- (void) setThisDateInRepublicEra {
-    NSDate *now = [NSDate date];
-    NSString *weekdayString = [[FarmTransData date2WeekdayFormatter] stringFromDate:now];
-    if ([weekdayString isEqualToString:@"Monday"]) {
-        _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[FarmTransData yesterday]];
-    }
-    else {
-        _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:now];
-    }
 }
 
 - (void) viewDidLoad {
@@ -96,18 +84,10 @@ NSString *market = @"台北一";
     [self.tableView registerClass:[LoadMoreIndicatorCell class]
            forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
-    [self.client fetchDataWithPage:0 market:market
-                   startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
-         if (!data.count) {
-             DDLogInfo(@"fetch no data at %@", self.thisDateInRepublicEra);
-             self.thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[FarmTransData yesterday]];
-             [self.client fetchDataWithPage:0 market:market
-                            startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
-                  [self reloadTableView:data];
-              }];
-         }
-         [self reloadTableView:data];
-     }];
+    [self.client fetchDataWithPage:0 market:market completion:^(NSArray *data) {
+//        NSLog(@">>>>>>>>>>>> data = %@", data);
+        [self reloadTableView:data];
+    }];
 }
 
 - (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
@@ -177,11 +157,10 @@ NSString *market = @"台北一";
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = (int) ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-        [self.client fetchDataWithPage:page market:market
-                       startDateString:self.thisDateInRepublicEra completion:^(NSArray *completion) {
-             self.requestingFlag = NO;
-             [self reloadTableView:completion];
-         }];
+        [self.client fetchDataWithPage:page market:market completion:^(NSArray *completion) {
+            self.requestingFlag = NO;
+            [self reloadTableView:completion];
+        }];
     }
 }
 
