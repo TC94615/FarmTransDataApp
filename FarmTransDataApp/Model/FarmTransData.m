@@ -30,6 +30,12 @@ static int const FIRST_YEAR_OF_REPUBLIC_IN_AD = 1911;
     return dateFormatter;
 }
 
++ (NSDateFormatter *) date2WeekdayFormatter {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEEE"];
+    return dateFormatter;
+}
+
 + (NSString *) AD2RepublicEra:(NSDate *) date {
     NSString *dateString = [[self dateFormatter] stringFromDate:date];
     NSArray *dateArray = [dateString componentsSeparatedByString:@"-"];
@@ -37,5 +43,10 @@ static int const FIRST_YEAR_OF_REPUBLIC_IN_AD = 1911;
     NSString *dateWithRepublicEra = [NSString stringWithFormat:@"%@.%@.%@", thisYearInRepublicEra, dateArray[1],
                                                                dateArray[2]];
     return dateWithRepublicEra;
+}
+
++ (NSDate *) yesterday {
+    NSDate *yesterday = [[NSDate date] dateByAddingTimeInterval:-86400.0];
+    return yesterday;
 }
 @end

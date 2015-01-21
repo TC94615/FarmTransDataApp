@@ -75,7 +75,19 @@ NSString *market = @"台北一";
     _dataSourceArray = [NSMutableArray array];
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
-    _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
+    [self setThisDateInRepublicEra];
+
+}
+
+- (void) setThisDateInRepublicEra {
+    NSDate *now = [NSDate date];
+    NSString *weekdayString = [[FarmTransData date2WeekdayFormatter] stringFromDate:now];
+    if ([weekdayString isEqualToString:@"Monday"]) {
+        _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[FarmTransData yesterday]];
+    }
+    else {
+        _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:now];
+    }
 }
 
 - (void) viewDidLoad {
@@ -88,8 +100,7 @@ NSString *market = @"台北一";
                    startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
          if (!data.count) {
              DDLogInfo(@"fetch no data at %@", self.thisDateInRepublicEra);
-             NSDate *yesterday = [[NSDate date] dateByAddingTimeInterval:-86400.0];
-             self.thisDateInRepublicEra = [FarmTransData AD2RepublicEra:yesterday];
+             self.thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[FarmTransData yesterday]];
              [self.client fetchDataWithPage:0 market:market
                             startDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
                   [self reloadTableView:data];

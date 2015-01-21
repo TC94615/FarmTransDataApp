@@ -21,6 +21,9 @@
 
 + (NSDateFormatter *) dateFormatter;
 
++ (NSDateFormatter *) date2WeekdayFormatter;
+
 + (NSString *) AD2RepublicEra:(NSDate *) date;
 
++ (NSDate *) yesterday;
 @end
