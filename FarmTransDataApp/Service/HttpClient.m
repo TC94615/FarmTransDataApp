@@ -42,12 +42,8 @@ int const FETCH_PAGE_SIZE = 30;
 }
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
-
-    NSString *escapedMarketName = [marketName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    int skip = FETCH_PAGE_SIZE * page;
-    NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"market" : escapedMarketName,
-      @"StartDate" : [FarmTransData AD2RepublicEra:self.defaultDate]};
-    [[[[self fetchDataWithParams:params] continueWithSuccessBlock:^id(BFTask *task) {
+    [[[[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
+                        market:marketName] continueWithSuccessBlock:^id(BFTask *task) {
         if (!((NSArray *) task.result).count) {
             DDLogInfo(@"Fetch no data at %@", [FarmTransData AD2RepublicEra:self.defaultDate]);
             self.defaultDate = [FarmTransData day:self.defaultDate withDaysAgo:1];
@@ -101,7 +97,9 @@ int const FETCH_PAGE_SIZE = 30;
     }];
 }
 
-- (NSArray *) filterSimilarNameObject:(NSArray *) array withCorrectName:(NSString *) correctName {
+- (NSArray *) filterSimilarNameObject:(NSArray *) array
+                      withCorrectName:
+                        (NSString *) correctName {
     NSMutableArray *filteredArray = [NSMutableArray array];
     for (FarmTransData *row in array) {
         if ([row.cropName isEqualToString:correctName]) {
@@ -128,7 +126,8 @@ int const FETCH_PAGE_SIZE = 30;
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:urlString]
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:2
+                                                NSArray *json = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                options:2
                                                                                                   error:nil];
                                                 NSArray *MTLJson = [MTLJSONAdapter modelsOfClass:FarmTransData.class
                                                                                    fromJSONArray:json
