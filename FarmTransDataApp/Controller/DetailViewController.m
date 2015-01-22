@@ -77,11 +77,20 @@ enum {
     _requestingFlag = NO;
     _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
     _page = 0;
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.leftBarButton_name", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(clickLeftBarButton:)];
     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", self.cropName, self.marketName];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.rightBarButton_name", nil)
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(clickRightBarButton:)];
+}
+
+- (void) clickLeftBarButton:(UIBarButtonItem *) sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {

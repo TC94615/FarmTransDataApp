@@ -74,6 +74,7 @@ NSString *market = @"台北一";
     _dataSourceArray = [NSMutableArray array];
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
+    self.navigationItem.title = [FarmTransData AD2RepublicEra:[NSDate date]];
 
 }
 
@@ -86,6 +87,7 @@ NSString *market = @"台北一";
     [self.client fetchDataWithPage:0 market:market completion:^(NSArray *data) {
         [self reloadTableView:data];
     }];
+    self.navigationItem.title = [FarmTransData AD2RepublicEra:[self.client getDefaultDateString]];
 }
 
 - (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {

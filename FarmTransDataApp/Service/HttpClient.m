@@ -130,5 +130,10 @@ int const FETCH_PAGE_SIZE = 30;
     else {
         _defaultDate = now;
     }
+
+}
+
+-(NSDate *) getDefaultDateString{
+    return self.defaultDate;
 }
 @end

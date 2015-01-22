@@ -13,4 +13,6 @@
 "mainTitleView.bot_price" = "下價";
 "mainTitleView.avg_price" = "均價";
 "mainTitleView.volume" = "量";
+"detailViewController.navigationItem.leftBarButton_name" = "返回";
 "detailViewController.navigationItem.rightBarButton_name" = "看圖";
+
