@@ -11,6 +11,7 @@
 #import "LoadMoreIndicatorCell.h"
 #import "AppConstants.h"
 #import "CorePlotViewController.h"
+#import "NSDate+Utils.h"
 
 enum {
     ContentsSection = 0,
@@ -75,22 +76,26 @@ enum {
     _dataSourceArray = [NSMutableArray array];
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
-    _thisDateInRepublicEra = [FarmTransData AD2RepublicEra:[NSDate date]];
+    _thisDateInRepublicEra = [NSDate AD2RepublicEra:[NSDate date]];
     _page = 0;
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.leftBarButton_name", nil)
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(clickLeftBarButton:)];
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", self.cropName, self.marketName];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.rightBarButton_name", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(clickRightBarButton:)];
+    [self setNavigationBar];
 }
 
-- (void) clickLeftBarButton:(UIBarButtonItem *) sender {
-    [self.navigationController popViewControllerAnimated:YES];
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
+    [self.tableView registerClass:[LoadMoreIndicatorCell class]
+           forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
+
+    [self.client fetchDataWithPage:self.page withCropName:self.cropName
+                    withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
+                 withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
+         [self reloadTableView:data];
+     }];
+}
+
+- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
+    return TotalSections;
 }
 
 - (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
@@ -101,10 +106,6 @@ enum {
         return 1;
     }
     return 0;
-}
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
-    return TotalSections;
 }
 
 - (UITableViewCell *) tableView:(UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *) indexPath {
@@ -122,22 +123,8 @@ enum {
     return nil;
 }
 
-- (void) clickRightBarButton:(UIBarButtonItem *) sender {
-    CorePlotViewController *plotViewController = [[CorePlotViewController alloc] initWithDataArray:self.dataSourceArray];
-    [self.navigationController pushViewController:plotViewController animated:NO];
-}
-
-- (void) viewDidLoad {
-    [super viewDidLoad];
-    [self.tableView registerClass:[FarmTransTableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
-    [self.tableView registerClass:[LoadMoreIndicatorCell class]
-           forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
-
-    [self.client fetchDataWithPage:self.page withCropName:self.cropName
-                    withMarketName:self.marketName withStartDateString:FIRST_DAY_IN_SITE
-                 withEndDateString:self.thisDateInRepublicEra completion:^(NSArray *data) {
-         [self reloadTableView:data];
-     }];
+- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
+    return [FarmTransTableViewCell cellHeight];
 }
 
 - (void) reloadTableView:(NSArray *) array {
@@ -145,8 +132,25 @@ enum {
     [self.tableView reloadData];
 }
 
-- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
-    return [FarmTransTableViewCell cellHeight];
+- (void) setNavigationBar {
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", self.cropName, self.marketName];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.leftBarButton_name", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(clickLeftBarButton:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"detailViewController.navigationItem.rightBarButton_name", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(clickRightBarButton:)];
+}
+
+- (void) clickLeftBarButton:(UIBarButtonItem *) sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) clickRightBarButton:(UIBarButtonItem *) sender {
+    CorePlotViewController *plotViewController = [[CorePlotViewController alloc] initWithDataArray:self.dataSourceArray];
+    [self.navigationController pushViewController:plotViewController animated:NO];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *) scrollView {

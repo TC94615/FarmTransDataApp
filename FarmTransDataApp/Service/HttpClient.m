@@ -10,13 +10,14 @@
 #import "AppConstants.h"
 #import "BFTask.h"
 #import "BFTaskCompletionSource.h"
+#import "NSDate+Utils.h"
 
 static NSString *const site = @"http://m.coa.gov.tw";
 static NSString *const path = @"/OpenData/FarmTransData.aspx";
 int const FETCH_PAGE_SIZE = 30;
 
 @interface HttpClient()
-@property (nonatomic, strong) NSDate *defaultDate;
+@property (nonatomic, strong) NSDate *DateOfNewestData;
 @end
 
 @implementation HttpClient
@@ -32,15 +33,15 @@ int const FETCH_PAGE_SIZE = 30;
 
 - (instancetype) init {
     self = [super init];
-    [self setThisDateInRepublicEra];
+    _DateOfNewestData = [NSDate date];
     return self;
 }
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
-    [[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
+    [[self fetchDataWithDate:[NSDate AD2RepublicEra:self.DateOfNewestData] withPage:page
                       market:marketName] continueWithBlock:^id(BFTask *task) {
         if (!((NSArray *) task.result).count) {
-            self.defaultDate = [FarmTransData date:self.defaultDate withDaysAgo:1];
+            self.DateOfNewestData = [NSDate getDateBeforeFrom:self.DateOfNewestData withDaysAgo:1];
             [self fetchDataWithPage:page market:marketName
                          completion:^(NSArray *data) {
                              completion(data);
@@ -78,18 +79,6 @@ int const FETCH_PAGE_SIZE = 30;
     }];
 }
 
-- (NSArray *) filterSimilarNameObject:(NSArray *) array
-                      withCorrectName:
-                        (NSString *) correctName {
-    NSMutableArray *filteredArray = [NSMutableArray array];
-    for (FarmTransData *row in array) {
-        if ([row.cropName isEqualToString:correctName]) {
-            [filteredArray addObject:row];
-        }
-    }
-    return [filteredArray copy];
-}
-
 - (BFTask *) fetchDataWithParams:(NSDictionary *) params {
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
 
@@ -121,19 +110,20 @@ int const FETCH_PAGE_SIZE = 30;
     return completionSource.task;
 }
 
-- (void) setThisDateInRepublicEra {
-    NSDate *now = [NSDate date];
-    NSString *weekdayString = [[FarmTransData date2WeekdayFormatter] stringFromDate:now];
-    if ([weekdayString isEqualToString:@"Monday"]) {
-        _defaultDate = [FarmTransData date:now withDaysAgo:1];
+- (NSArray *) filterSimilarNameObject:(NSArray *) array
+                      withCorrectName:
+                        (NSString *) correctName {
+    NSMutableArray *filteredArray = [NSMutableArray array];
+    for (FarmTransData *row in array) {
+        if ([row.cropName isEqualToString:correctName]) {
+            [filteredArray addObject:row];
+        }
     }
-    else {
-        _defaultDate = now;
-    }
-
+    return [filteredArray copy];
 }
 
--(NSDate *) getDefaultDateString{
-    return self.defaultDate;
+- (NSDate *) getDateOfNewestData {
+    return self.DateOfNewestData;
 }
+
 @end

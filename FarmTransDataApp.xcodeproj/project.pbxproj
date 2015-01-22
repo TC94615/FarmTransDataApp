@@ -11,6 +11,7 @@
 		429127496C031081FCD7AE99 /* LoadMoreIndicatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126F0EE7C6844834E3EE7 /* LoadMoreIndicatorCell.m */; };
 		429127AE092FF7355B0F1403 /* Dao.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912A3F2171B342399F8FB1 /* Dao.m */; };
 		429128655D35B77022C0D7C2 /* FarmTransData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4291270BC0E561ABEC9C6F73 /* FarmTransData.m */; };
+		42912884DAE75DAFD743CB6D /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 429120FDF276B7B4EFD10DA1 /* NSDate+Utils.m */; };
 		429128F09C040394F304E9E4 /* FarmTransTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 429121C79E0316518C8B2A8A /* FarmTransTableViewCell.m */; };
 		4291290D9D82B93A0CEDE18E /* CorePlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42912FF8F86DB9FCB5702D96 /* CorePlotViewController.m */; };
 		4291291AA8824B131A5D57CC /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 429126FA85B6904583EEF996 /* HttpClient.m */; };
@@ -40,6 +41,7 @@
 		02CFAB4DBFF6F8E4DAA763C4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		429120153FEEE61BFEDCCECB /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		429120294CCCFCCE34CD7188 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
+		429120FDF276B7B4EFD10DA1 /* NSDate+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utils.m"; sourceTree = "<group>"; };
 		4291219A56E64C598A7F52BC /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		429121C79E0316518C8B2A8A /* FarmTransTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransTableViewCell.m; sourceTree = "<group>"; };
 		429121EC08D02C6987E89EA6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 		429126F0EE7C6844834E3EE7 /* LoadMoreIndicatorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreIndicatorCell.m; sourceTree = "<group>"; };
 		429126FA85B6904583EEF996 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 		4291270BC0E561ABEC9C6F73 /* FarmTransData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FarmTransData.m; sourceTree = "<group>"; };
+		4291287B68BDECC6D1A822CA /* NSDate+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utils.h"; sourceTree = "<group>"; };
 		4291294946A7BCC0E0A86171 /* LoadMoreIndicatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreIndicatorCell.h; sourceTree = "<group>"; };
 		42912A3F2171B342399F8FB1 /* Dao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dao.m; sourceTree = "<group>"; };
 		42912AE6D75933E389B3B35B /* CorePlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorePlotViewController.h; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 			children = (
 				4291270BC0E561ABEC9C6F73 /* FarmTransData.m */,
 				4291254D7CF262F487D86252 /* FarmTransData.h */,
+				429120FDF276B7B4EFD10DA1 /* NSDate+Utils.m */,
+				4291287B68BDECC6D1A822CA /* NSDate+Utils.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -376,6 +381,7 @@
 				4291295A42D41C35E40CDEB5 /* AppConstants.m in Sources */,
 				42912FAE7BE84E5C954E9F5F /* DetailViewController.m in Sources */,
 				4291290D9D82B93A0CEDE18E /* CorePlotViewController.m in Sources */,
+				42912884DAE75DAFD743CB6D /* NSDate+Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

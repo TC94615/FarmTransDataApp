@@ -13,7 +13,7 @@ extern int const FETCH_PAGE_SIZE;
 
 - (void) fetchDataWithPage:(int) page withCropName:(NSString *) cropName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion;
 
-- (NSDate *) getDefaultDateString;
+- (NSDate *) getDateOfNewestData;
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion;
 

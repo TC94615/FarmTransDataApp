@@ -11,11 +11,10 @@
 #import "LoadMoreIndicatorCell.h"
 #import "MainTitleView.h"
 #import "DetailViewController.h"
-
+#import "NSDate+Utils.h"
 
 //market list
 //台北ㄧ 台北二 三重 宜蘭 桃園 台中 永靖 溪湖 南投 ?西螺 高雄 鳳山 屏東 台東 ?花蓮
-
 
 enum {
     ContentsSection = 0,
@@ -26,14 +25,12 @@ enum {
 //TODO
 NSString *market = @"台北一";
 
-
 @interface MainViewController()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) MainTitleView *mainTitleView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSourceArray;
 @property (nonatomic, strong) HttpClient *client;
 @property (nonatomic, assign) BOOL requestingFlag;
-@property (nonatomic, strong) NSString *thisDateInRepublicEra;
 @end
 
 @implementation MainViewController
@@ -74,7 +71,7 @@ NSString *market = @"台北一";
     _dataSourceArray = [NSMutableArray array];
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
-    self.navigationItem.title = [FarmTransData AD2RepublicEra:[NSDate date]];
+    self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
 
 }
 
@@ -86,18 +83,13 @@ NSString *market = @"台北一";
 
     [self.client fetchDataWithPage:0 market:market completion:^(NSArray *data) {
         [self reloadTableView:data];
+        self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
     }];
-    self.navigationItem.title = [FarmTransData AD2RepublicEra:[self.client getDefaultDateString]];
 }
 
-- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
-    return [FarmTransTableViewCell cellHeight];
+- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
+    return TotalSections;
 }
-
-- (void) reloadTableView:(NSArray *) array {
-    [self.dataSourceArray addObjectsFromArray:array];
-    [self.tableView reloadData];
-};
 
 - (NSInteger) tableView:(UITableView *) tableView numberOfRowsInSection:(NSInteger) section {
     if (ContentsSection == section) {
@@ -108,21 +100,6 @@ NSString *market = @"台北一";
     }
     return 0;
 }
-
-- (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
-    if (ContentsSection == indexPath.section) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithCropId:[self.dataSourceArray[indexPath.row] cropName]
-                                                                                      andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
-        [self.navigationController pushViewController:detailViewController
-                                             animated:YES];
-    }
-}
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *) tableView {
-    return TotalSections;
-}
-
 
 - (UITableViewCell *) tableView:(UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *) indexPath {
     if (ContentsSection == indexPath.section) {
@@ -139,6 +116,25 @@ NSString *market = @"台北一";
     }
     return nil;
 }
+
+- (CGFloat) tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *) indexPath {
+    return [FarmTransTableViewCell cellHeight];
+}
+
+- (void) tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *) indexPath {
+    if (ContentsSection == indexPath.section) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithCropId:[self.dataSourceArray[indexPath.row] cropName]
+                                                                                      andMarketId:[self.dataSourceArray[indexPath.row] marketName]];
+        [self.navigationController pushViewController:detailViewController
+                                             animated:YES];
+    }
+}
+
+- (void) reloadTableView:(NSArray *) array {
+    [self.dataSourceArray addObjectsFromArray:array];
+    [self.tableView reloadData];
+};
 
 - (void) scrollViewDidScroll:(UIScrollView *) scrollView {
     CGPoint offset = scrollView.contentOffset;
@@ -163,6 +159,5 @@ NSString *market = @"台北一";
         }];
     }
 }
-
 
 @end

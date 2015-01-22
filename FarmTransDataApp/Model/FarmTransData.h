@@ -19,11 +19,4 @@
 @property (nonatomic, strong) NSNumber *avgPrice;
 @property (nonatomic, strong) NSNumber *volume;
 
-+ (NSDateFormatter *) dateFormatter;
-
-+ (NSDateFormatter *) date2WeekdayFormatter;
-
-+ (NSString *) AD2RepublicEra:(NSDate *) date;
-
-+ (NSDate *) date:(NSDate *) thisDay withDaysAgo:(int) daysAgo;
 @end
