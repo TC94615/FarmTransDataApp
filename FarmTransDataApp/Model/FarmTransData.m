@@ -45,7 +45,7 @@ static int const FIRST_YEAR_OF_REPUBLIC_IN_AD = 1911;
     return dateWithRepublicEra;
 }
 
-+ (NSDate *) day:(NSDate *) thisDay withDaysAgo:(int) daysAgo {
++ (NSDate *) date:(NSDate *) thisDay withDaysAgo:(int) daysAgo {
     double secondsOfOneDay = -86400.0;
     NSDate *theDay = [thisDay dateByAddingTimeInterval:secondsOfOneDay * daysAgo];
     return theDay;

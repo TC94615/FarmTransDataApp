@@ -11,7 +11,6 @@
 #import "LoadMoreIndicatorCell.h"
 #import "MainTitleView.h"
 #import "DetailViewController.h"
-#import "AppConstants.h"
 
 
 //market list
@@ -85,7 +84,6 @@ NSString *market = @"台北一";
            forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
     [self.client fetchDataWithPage:0 market:market completion:^(NSArray *data) {
-//        NSLog(@">>>>>>>>>>>> data = %@", data);
         [self reloadTableView:data];
     }];
 }

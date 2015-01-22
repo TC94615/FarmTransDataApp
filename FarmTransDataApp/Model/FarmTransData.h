@@ -25,5 +25,5 @@
 
 + (NSString *) AD2RepublicEra:(NSDate *) date;
 
-+ (NSDate *) day:(NSDate *) thisDay withDaysAgo:(int) daysAgo;
++ (NSDate *) date:(NSDate *) thisDay withDaysAgo:(int) daysAgo;
 @end

@@ -33,39 +33,23 @@ int const FETCH_PAGE_SIZE = 30;
 - (instancetype) init {
     self = [super init];
     [self setThisDateInRepublicEra];
-    //TODO
-    _defaultDate = [FarmTransData day:self.defaultDate withDaysAgo:-2];
-    NSLog(@">>>>>>>>>>>> [FarmTransData AD2RepublicEra:self.defaultDate] = %@", [FarmTransData AD2RepublicEra:self.defaultDate]);
-    //
     return self;
-
 }
 
 - (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
-    [[[[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
-                        market:marketName] continueWithSuccessBlock:^id(BFTask *task) {
+    [[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
+                      market:marketName] continueWithBlock:^id(BFTask *task) {
         if (!((NSArray *) task.result).count) {
-            DDLogInfo(@"Fetch no data at %@", [FarmTransData AD2RepublicEra:self.defaultDate]);
-            self.defaultDate = [FarmTransData day:self.defaultDate withDaysAgo:1];
-            return [[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
-                                     market:marketName] continueWithSuccessBlock:^id(BFTask *_task) {
-                return _task.result;
-            }];
+            self.defaultDate = [FarmTransData date:self.defaultDate withDaysAgo:1];
+            [self fetchDataWithPage:page market:marketName
+                         completion:^(NSArray *data) {
+                             completion(data);
+                         }];
         }
-        return task.result;
-    }] continueWithSuccessBlock:^id(BFTask *task) {
-        if (!((NSArray *) task.result).count) {
-            DDLogInfo(@"Fetch no data at %@", [FarmTransData AD2RepublicEra:self.defaultDate]);
-            self.defaultDate = [FarmTransData day:self.defaultDate withDaysAgo:1];
-            return [[self fetchDataWithDate:[FarmTransData AD2RepublicEra:self.defaultDate] withPage:page
-                                     market:marketName] continueWithSuccessBlock:^id(BFTask *_task) {
-                return _task.result;
-            }];
-        }
-        return task.result;
-    }] continueWithBlock:^id(BFTask *task) {
-        if (completion) {
-            completion(task.result);
+        else {
+            if (completion) {
+                completion(task.result);
+            }
         }
         return nil;
     }];
@@ -76,10 +60,7 @@ int const FETCH_PAGE_SIZE = 30;
     int skip = FETCH_PAGE_SIZE * page;
     NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"market" : escapedMarketName,
       @"StartDate" : dateString};
-    return [[self fetchDataWithParams:params] continueWithSuccessBlock:^id(BFTask *task) {
-        NSLog(@">>>>>>>>>>>> task.result = %@", task.result);
-        return task.result;
-    }];
+    return [self fetchDataWithParams:params];
 }
 
 - (void) fetchDataWithPage:(int) page withCropName:(NSString *) cropName withMarketName:(NSString *) marketName withStartDateString:(NSString *) startDate withEndDateString:(NSString *) endDate completion:(void (^)(NSArray *)) completion {
@@ -144,7 +125,7 @@ int const FETCH_PAGE_SIZE = 30;
     NSDate *now = [NSDate date];
     NSString *weekdayString = [[FarmTransData date2WeekdayFormatter] stringFromDate:now];
     if ([weekdayString isEqualToString:@"Monday"]) {
-        _defaultDate = [FarmTransData day:now withDaysAgo:1];
+        _defaultDate = [FarmTransData date:now withDaysAgo:1];
     }
     else {
         _defaultDate = now;
