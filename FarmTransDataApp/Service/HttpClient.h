@@ -15,6 +15,6 @@ extern int const FETCH_PAGE_SIZE;
 
 - (NSDate *) getDateOfNewestData;
 
-- (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion;
+- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *)) completion;
 
 @end

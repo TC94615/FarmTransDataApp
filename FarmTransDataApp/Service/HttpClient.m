@@ -17,7 +17,7 @@ static NSString *const path = @"/OpenData/FarmTransData.aspx";
 int const FETCH_PAGE_SIZE = 30;
 
 @interface HttpClient()
-@property (nonatomic, strong) NSDate *DateOfNewestData;
+@property (nonatomic, strong) NSDate *dateOfNewestData;
 @end
 
 @implementation HttpClient
@@ -33,19 +33,18 @@ int const FETCH_PAGE_SIZE = 30;
 
 - (instancetype) init {
     self = [super init];
-    _DateOfNewestData = [NSDate date];
+    _dateOfNewestData = [NSDate date];
     return self;
 }
 
-- (void) fetchDataWithPage:(int) page market:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
-    [[self fetchDataWithDate:[NSDate AD2RepublicEra:self.DateOfNewestData] withPage:page
-                      market:marketName] continueWithBlock:^id(BFTask *task) {
+- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
+    [[self fetchDataInDate:[NSDate AD2RepublicEra:self.dateOfNewestData] withPage:page
+                    market:marketName] continueWithBlock:^id(BFTask *task) {
         if (!((NSArray *) task.result).count) {
-            self.DateOfNewestData = [NSDate getDateBeforeFrom:self.DateOfNewestData withDaysAgo:1];
-            [self fetchDataWithPage:page market:marketName
-                         completion:^(NSArray *data) {
-                             completion(data);
-                         }];
+            self.dateOfNewestData = [NSDate getDateBeforeFrom:self.dateOfNewestData withDaysAgo:1];
+            [self fetchDataInNewestDateWithPage:page withMarketName:marketName completion:^(NSArray *data) {
+                completion(data);
+            }];
         }
         else {
             if (completion) {
@@ -56,7 +55,7 @@ int const FETCH_PAGE_SIZE = 30;
     }];
 }
 
-- (BFTask *) fetchDataWithDate:(NSString *) dateString withPage:(int) page market:(NSString *) marketName {
+- (BFTask *) fetchDataInDate:(NSString *) dateString withPage:(int) page market:(NSString *) marketName {
     NSString *escapedMarketName = [marketName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     int skip = FETCH_PAGE_SIZE * page;
     NSDictionary *params = @{@"$top" : @(FETCH_PAGE_SIZE), @"$skip" : @(skip), @"market" : escapedMarketName,
@@ -123,7 +122,6 @@ int const FETCH_PAGE_SIZE = 30;
 }
 
 - (NSDate *) getDateOfNewestData {
-    return self.DateOfNewestData;
+    return self.dateOfNewestData;
 }
-
 @end

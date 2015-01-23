@@ -81,7 +81,7 @@ NSString *market = @"台北一";
     [self.tableView registerClass:[LoadMoreIndicatorCell class]
            forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
-    [self.client fetchDataWithPage:0 market:market completion:^(NSArray *data) {
+    [self.client fetchDataInNewestDateWithPage:0 withMarketName:market completion:^(NSArray *data) {
         [self reloadTableView:data];
         self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
     }];
@@ -153,11 +153,11 @@ NSString *market = @"台北一";
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = (int) ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-        [self.client fetchDataWithPage:page market:market completion:^(NSArray *completion) {
+        [self.client fetchDataInNewestDateWithPage:page withMarketName:market completion:^(NSArray *completion) {
             self.requestingFlag = NO;
             [self reloadTableView:completion];
         }];
-    }
+    };
 }
 
 @end

@@ -79,6 +79,7 @@ enum {
     _thisDateInRepublicEra = [NSDate AD2RepublicEra:[NSDate date]];
     _page = 0;
     [self setNavigationBar];
+
 }
 
 - (void) viewDidLoad {
