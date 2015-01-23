@@ -37,11 +37,11 @@ int const FETCH_PAGE_SIZE = 30;
     return self;
 }
 
-- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
+- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *, NSError *)) completion {
     [[self fetchDataInNewestDateWithPage:page
-                          withMarketName:marketName] continueWithSuccessBlock:^id(BFTask *task) {
+                          withMarketName:marketName] continueWithBlock:^id(BFTask *task) {
         if (completion) {
-            completion(task.result);
+            completion(task.result, task.error);
         }
         return nil;
     }];
@@ -50,6 +50,9 @@ int const FETCH_PAGE_SIZE = 30;
 - (BFTask *) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName {
     return [[self fetchDataInDate:[NSDate AD2RepublicEra:self.dateOfNewestData] withPage:page
                            market:marketName] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            return task;
+        }
         if (!((NSArray *) task.result).count) {
             self.dateOfNewestData = [NSDate getDateBeforeFrom:self.dateOfNewestData withDaysAgo:1];
             return [self fetchDataInNewestDateWithPage:page withMarketName:marketName];
@@ -100,14 +103,20 @@ int const FETCH_PAGE_SIZE = 30;
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:urlString]
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                NSArray *json = [NSJSONSerialization JSONObjectWithData:data
-                                                                                                options:2
-                                                                                                  error:nil];
-                                                NSArray *MTLJson = [MTLJSONAdapter modelsOfClass:FarmTransData.class
-                                                                                   fromJSONArray:json
-                                                                                           error:nil];
                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                    [completionSource setResult:MTLJson];
+                                                    if (error) {
+                                                        [completionSource setError:error];
+                                                    }
+                                                    else {
+                                                        NSArray *json = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                        options:2
+                                                                                                          error:nil];
+                                                        NSArray *MTLJson = [MTLJSONAdapter modelsOfClass:FarmTransData.class
+                                                                                           fromJSONArray:json
+                                                                                                   error:nil];
+
+                                                        [completionSource setResult:MTLJson];
+                                                    }
                                                 });
                                             }];
     [dataTask resume];

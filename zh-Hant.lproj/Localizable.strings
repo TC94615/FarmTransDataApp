@@ -15,4 +15,4 @@
 "mainTitleView.volume" = "量";
 "detailViewController.navigationItem.leftBarButton_name" = "返回";
 "detailViewController.navigationItem.rightBarButton_name" = "看圖";
-
+"mainViewController.market_select_button" = "市場";

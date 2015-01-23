@@ -12,6 +12,7 @@
 #import "MainTitleView.h"
 #import "DetailViewController.h"
 #import "NSDate+Utils.h"
+#import "AppConstants.h"
 
 //market list
 //台北ㄧ 台北二 三重 宜蘭 桃園 台中 永靖 溪湖 南投 ?西螺 高雄 鳳山 屏東 台東 ?花蓮
@@ -72,6 +73,16 @@ NSString *market = @"台北一";
     _client = [HttpClient sharedManager];
     _requestingFlag = NO;
     self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
+    UIBarButtonItem *marketSelectButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"mainViewController.market_select_button", <#comment#>)
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(onSelectMarket:)];
+    self.navigationItem.leftBarButtonItem = marketSelectButton;
+
+}
+
+- (void) onSelectMarket:(UIBarButtonItem *) sender {
+
 }
 
 - (void) viewDidLoad {
@@ -80,9 +91,14 @@ NSString *market = @"台北一";
     [self.tableView registerClass:[LoadMoreIndicatorCell class]
            forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
     [self.client fetchDataInNewestDateWithPage:0 withMarketName:market
-                                    completion:^(NSArray *dataArray) {
-                                        [self reloadTableView:dataArray];
-                                        self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
+                                    completion:^(NSArray *dataArray,NSError *error) {
+                                        if (error) {
+                                            DDLogInfo(@"Error when fetching data from site");
+                                        }
+                                        else {
+                                            [self reloadTableView:dataArray];
+                                            self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
+                                        }
                                     }];
 }
 
@@ -153,9 +169,14 @@ NSString *market = @"台北一";
         self.requestingFlag = YES;
         int page = (int) ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
         [self.client fetchDataInNewestDateWithPage:page withMarketName:market
-                                        completion:^(NSArray *dataArray) {
-                                            self.requestingFlag = NO;
-                                            [self reloadTableView:dataArray];
+                                        completion:^(NSArray *dataArray, NSError *error) {
+                                            if (error) {
+                                                DDLogInfo(@"Fetch error");
+                                            }
+                                            else {
+                                                self.requestingFlag = NO;
+                                                [self reloadTableView:dataArray];
+                                            }
                                         }];
     };
 }
