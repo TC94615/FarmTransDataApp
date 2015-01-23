@@ -37,9 +37,19 @@ int const FETCH_PAGE_SIZE = 30;
     return self;
 }
 
+- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *)) completion {
+    [[self fetchDataInNewestDateWithPage:page
+                          withMarketName:marketName] continueWithSuccessBlock:^id(BFTask *task) {
+        if (completion) {
+            completion(task.result);
+        }
+        return nil;
+    }];
+}
+
 - (BFTask *) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName {
     return [[self fetchDataInDate:[NSDate AD2RepublicEra:self.dateOfNewestData] withPage:page
-                    market:marketName] continueWithBlock:^id(BFTask *task) {
+                           market:marketName] continueWithBlock:^id(BFTask *task) {
         if (!((NSArray *) task.result).count) {
             self.dateOfNewestData = [NSDate getDateBeforeFrom:self.dateOfNewestData withDaysAgo:1];
             return [self fetchDataInNewestDateWithPage:page withMarketName:marketName];
