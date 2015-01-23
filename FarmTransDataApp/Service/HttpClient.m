@@ -40,8 +40,12 @@ int const FETCH_PAGE_SIZE = 30;
 - (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *, NSError *)) completion {
     [[self fetchDataInNewestDateWithPage:page
                           withMarketName:marketName] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            DDLogInfo(@"Error when fetching data from site");
+            completion(nil, task.error);
+        }
         if (completion) {
-            completion(task.result, task.error);
+            completion(task.result, nil);
         }
         return nil;
     }];

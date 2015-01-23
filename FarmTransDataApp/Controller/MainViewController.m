@@ -93,7 +93,7 @@ NSString *market = @"台北一";
     [self.client fetchDataInNewestDateWithPage:0 withMarketName:market
                                     completion:^(NSArray *dataArray,NSError *error) {
                                         if (error) {
-                                            DDLogInfo(@"Error when fetching data from site");
+                                            return;
                                         }
                                         else {
                                             [self reloadTableView:dataArray];
