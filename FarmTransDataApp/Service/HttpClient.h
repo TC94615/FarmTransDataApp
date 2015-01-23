@@ -5,6 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class BFTask;
+
 extern int const FETCH_PAGE_SIZE;
 
 @interface HttpClient : NSObject
@@ -15,6 +17,6 @@ extern int const FETCH_PAGE_SIZE;
 
 - (NSDate *) getDateOfNewestData;
 
-- (void) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName completion:(void (^)(NSArray *)) completion;
+- (BFTask *) fetchDataInNewestDateWithPage:(int) page withMarketName:(NSString *) marketName;
 
 @end

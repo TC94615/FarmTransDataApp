@@ -12,6 +12,7 @@
 #import "MainTitleView.h"
 #import "DetailViewController.h"
 #import "NSDate+Utils.h"
+#import "BFTask.h"
 
 //market list
 //台北ㄧ 台北二 三重 宜蘭 桃園 台中 永靖 溪湖 南投 ?西螺 高雄 鳳山 屏東 台東 ?花蓮
@@ -81,9 +82,11 @@ NSString *market = @"台北一";
     [self.tableView registerClass:[LoadMoreIndicatorCell class]
            forCellReuseIdentifier:loadMoreIndicatorCellReuseIdentifier];
 
-    [self.client fetchDataInNewestDateWithPage:0 withMarketName:market completion:^(NSArray *data) {
-        [self reloadTableView:data];
+    [[self.client fetchDataInNewestDateWithPage:0
+                                 withMarketName:market] continueWithSuccessBlock:^id(BFTask *task) {
         self.navigationItem.title = [NSDate AD2RepublicEra:[self.client getDateOfNewestData]];
+        [self reloadTableView:(NSArray *) task.result];
+        return nil;
     }];
 }
 
@@ -153,10 +156,7 @@ NSString *market = @"台北一";
         [loadMoreIndicatorCell addActivityIndicator];
         self.requestingFlag = YES;
         int page = (int) ceil(self.dataSourceArray.count / (CGFloat) FETCH_PAGE_SIZE);
-        [self.client fetchDataInNewestDateWithPage:page withMarketName:market completion:^(NSArray *completion) {
-            self.requestingFlag = NO;
-            [self reloadTableView:completion];
-        }];
+        [self.client fetchDataInNewestDateWithPage:page withMarketName:market];
     };
 }
 
